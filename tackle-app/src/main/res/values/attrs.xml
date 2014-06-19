@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SpinnerFont">
+        <attr name="spinnerFontColor" format="reference|color"/>
+    </declare-styleable>
+
+    <declare-styleable name="DayView">
+        <attr name="dayName" format="string"/>
+    </declare-styleable>
+</resources>

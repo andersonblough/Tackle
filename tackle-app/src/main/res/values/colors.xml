@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--ALPHA HEX VALUES-->
+    <!--100%  — FF-->
+    <!--95%   — F2-->
+    <!--90%   — E6-->
+    <!--85%   — D9-->
+    <!--80%   — CC-->
+    <!--75%   — BF-->
+    <!--70%   — B3-->
+    <!--65%   — A6-->
+    <!--60%   — 99-->
+    <!--55%   — 8C-->
+    <!--50%   — 80-->
+    <!--45%   — 73-->
+    <!--40%   — 66-->
+    <!--35%   — 59-->
+    <!--30%   — 4D-->
+    <!--25%   — 40-->
+    <!--20%   — 33-->
+    <!--15%   — 26-->
+    <!--10%   — 1A-->
+    <!--5%    — 0D-->
+    <!--0%    — 00-->
+
+    <color name="text_grey">#363636</color>
+    <color name="app_background">#e2e2e2</color>
+    <color name="app_med_grey">#595959</color>
+    <color name="app_light_grey">#878787</color>
+    <color name="app_xlight_grey">#C7C7C7</color>
+
+    <color name="black90">#E6000000</color>
+    <color name="black70">#B3000000</color>
+    <color name="black50">#80000000</color>
+    <color name="black10">#1A000000</color>
+
+    <color name="grey70">#B3878787</color>
+
+    <color name="white70">#B3FFFFFF</color>
+    <color name="white20">#33FFFFFF</color>
+
+    <color name="tackle">#0DAD4B</color>
+    <color name="tackle70">#B30DAD4B</color>
+
+    <color name="clear">#0000</color>
+    <color name="white">#fff</color>
+
+    <drawable name="popupBackground">@color/black90</drawable>
+
+</resources>

@@ -1,0 +1,55 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'java'
+/*
+Shared gradle properties
+ */
+ext {
+    daggerVersion = '1.2.1'
+    ottoVersion = '1.3.4'
+    retrofitVersion = '1.4.1'
+    okhttpVersion = '1.5.0'
+    butterknifeVersion = '5.1.0'
+    saripaarVersion = '1.0.2'
+    jodaTimeVersion = '2.3'
+    rxjavaVersion = '0.17.0-RC7'
+
+    mockitoVersion = '1.9.5'
+    dexmakerVersion = '1.0'
+    mementoVersion = '0.2'
+
+    libs = [
+            otto             : ('com.squareup:otto:' + ottoVersion),
+            jodatime         : ('joda-time:joda-time:' + jodaTimeVersion),
+            saripaar         : ('com.mobsandgeeks:android-saripaar:' + saripaarVersion),
+            butterknife      : ('com.jakewharton:butterknife:' + butterknifeVersion),
+            dagger           : ('com.squareup.dagger:dagger:' + daggerVersion),
+            daggerCompiler   : ('com.squareup.dagger:dagger-compiler:' + daggerVersion),
+            retrofit         : ('com.squareup.retrofit:retrofit:' + retrofitVersion),
+            retrofitXML      : ('com.squareup.retrofit:converter-simplexml:' + retrofitVersion),
+            okhttp           : ('com.squareup.okhttp:okhttp:' + okhttpVersion),
+            rxjava           : ('com.netflix.rxjava:rxjava-core:' + rxjavaVersion),
+            rxjavaAndroid    : ('com.netflix.rxjava:rxjava-android:' + rxjavaVersion),
+            memento          : ("com.github.mttkay.memento:memento:" + mementoVersion)
+    ]
+
+    testLibs = [
+            dexmaker       : ('com.google.dexmaker:dexmaker:' + dexmakerVersion),
+            dexmakerMockito: ('com.google.dexmaker:dexmaker-mockito:' + dexmakerVersion),
+            mockito        : ('org.mockito:mockito-core:' + mockitoVersion),
+    ]
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.11.+'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}

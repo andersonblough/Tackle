@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Tackle.iml" filepath="$PROJECT_DIR$/Tackle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tackle-app/tackle-app.iml" filepath="$PROJECT_DIR$/tackle-app/tackle-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tackle-data/tackle-data.iml" filepath="$PROJECT_DIR$/tackle-data/tackle-data.iml" />
+    </modules>
+  </component>
+</project>
+
