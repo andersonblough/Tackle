@@ -130,8 +130,8 @@ public class DateFragment extends TackleBaseFragment {
             } else {
                 eventBus.post(MonthChangedEvent.newMonth(newMonth, true));
             }
-        } else if (newMonth > oldMonth && oldMonth != 11){
-            if (newMonth == 12){
+        } else if (newMonth > oldMonth) {
+            if (newMonth == 12 && oldMonth != 11) {
                 eventBus.post(MonthChangedEvent.newMonth(newMonth, true));
             } else {
                 eventBus.post(MonthChangedEvent.newMonth(newMonth, false));
