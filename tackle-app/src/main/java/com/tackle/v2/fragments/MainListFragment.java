@@ -26,6 +26,7 @@ import com.tackle.v2.event.events.AddItemEvent;
 import com.tackle.v2.event.events.SetDayEvent;
 import com.tackle.v2.event.events.SlideEvent;
 import com.tackle.v2.util.SelectionUtil;
+import com.tackle.v2.view.ListPager;
 
 import org.joda.time.DateTime;
 
@@ -48,7 +49,7 @@ public class MainListFragment extends TackleBaseFragment {
     public static final String TAG = MainListFragment.class.getName();
 
     @InjectView(R.id.view_pager)
-    ViewPager viewPager;
+    ListPager listPager;
 
     @Inject
     Bus eventBus;
@@ -71,6 +72,8 @@ public class MainListFragment extends TackleBaseFragment {
 
     private int selectedPage;
 
+    private boolean settled;
+
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -90,9 +93,11 @@ public class MainListFragment extends TackleBaseFragment {
             if (selectedPage == 8) {
                 eventBus.post(SlideEvent.newEvent(SlideEvent.SLIDE_LEFT));
                 dates = SelectionUtil.dateRange(dates[1].plusDays(7));
+                listPager.setPagingEnabled(false);
             } else if (selectedPage == 0) {
                 eventBus.post(SlideEvent.newEvent(SlideEvent.SLIDE_RIGHT));
                 dates = SelectionUtil.dateRange(dates[1].minusDays(7));
+                listPager.setPagingEnabled(false);
             } else {
                 eventBus.post(SetDayEvent.newEvent(position));
             }
@@ -102,30 +107,29 @@ public class MainListFragment extends TackleBaseFragment {
         @Override
         public void onPageScrollStateChanged(int state) {
             if (state == ViewPager.SCROLL_STATE_IDLE) {
+                if (selectedPage == 0) {
+                    //move to the left
+                    ModelList<TackleEvent> events = ((EventListAdapter) listViews[0].getAdapter()).getEvents();
+                    ((EventListAdapter) listViews[7].getAdapter()).swapEvents(events);
+                    listPager.setCurrentItem(7, false);
+                    restartLoaders();
 
-                    if (selectedPage == 0) {
-                        //move to the left
-                        ModelList<TackleEvent> events = ((EventListAdapter) listViews[0].getAdapter()).getEvents();
-                        ((EventListAdapter) listViews[7].getAdapter()).swapEvents(events);
-                        viewPager.setCurrentItem(7, false);
-                        restartLoaders();
-
-                    } else if (selectedPage == 8) {
-                        //move to the right
-                        ModelList<TackleEvent> events = ((EventListAdapter) listViews[8].getAdapter()).getEvents();
-                        ((EventListAdapter) listViews[1].getAdapter()).swapEvents(events);
-                        viewPager.setCurrentItem(1, false);
-                        restartLoaders();
-                    }
+                } else if (selectedPage == 8) {
+                    //move to the right
+                    ModelList<TackleEvent> events = ((EventListAdapter) listViews[8].getAdapter()).getEvents();
+                    ((EventListAdapter) listViews[1].getAdapter()).swapEvents(events);
+                    listPager.setCurrentItem(1, false);
+                    restartLoaders();
                 }
             }
+        }
 
     };
 
     public MainListFragment() {
     }
 
-    public static MainListFragment newListFragment(DateTime dateTime){
+    public static MainListFragment newListFragment(DateTime dateTime) {
         MainListFragment mainListFragment = new MainListFragment();
         mainListFragment.selectedPage = SelectionUtil.selectedDay(dateTime) + 1;
         mainListFragment.dates = SelectionUtil.dateRange(dateTime);
@@ -223,13 +227,13 @@ public class MainListFragment extends TackleBaseFragment {
         listPagerAdapter = new ListPagerAdapter();
         listPagerAdapter.setListViews(listViews);
 
-        viewPager.setAdapter(listPagerAdapter);
-        viewPager.setCurrentItem(selectedPage);
-        viewPager.setOnPageChangeListener(onPageChangeListener);
-        viewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        viewPager.setPageMarginDrawable(new ColorDrawable(getResources().getColor(R.color.clear)));
-        viewPager.setPageMargin(300);
-        viewPager.setPageTransformer(true, new ViewPager.PageTransformer() {
+        listPager.setAdapter(listPagerAdapter);
+        listPager.setCurrentItem(selectedPage);
+        listPager.setOnPageChangeListener(onPageChangeListener);
+        listPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        listPager.setPageMarginDrawable(new ColorDrawable(getResources().getColor(R.color.clear)));
+        listPager.setPageMargin(300);
+        listPager.setPageTransformer(true, new ViewPager.PageTransformer() {
             @Override
             public void transformPage(View page, float position) {
                 ListView list = (ListView) page;
@@ -243,7 +247,11 @@ public class MainListFragment extends TackleBaseFragment {
 
     public void setSelectedPage(int position) {
         selectedPage = position;
-        viewPager.setCurrentItem(selectedPage);
+        listPager.setCurrentItem(selectedPage);
+    }
+
+    public void enableListPager() {
+        listPager.setPagingEnabled(true);
     }
 
     private void restartLoaders() {

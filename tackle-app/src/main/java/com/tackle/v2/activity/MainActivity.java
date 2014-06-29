@@ -19,6 +19,7 @@ import com.tackle.v2.event.events.DateBarEvent;
 import com.tackle.v2.event.events.DayClickedEvent;
 import com.tackle.v2.event.events.SetDayEvent;
 import com.tackle.v2.event.events.SlideEvent;
+import com.tackle.v2.event.events.SlideFinishedEvent;
 import com.tackle.v2.fragments.AddFragment;
 import com.tackle.v2.fragments.DateFragment;
 import com.tackle.v2.fragments.MainListFragment;
@@ -144,21 +145,25 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
         if (event.direction == SlideEvent.SLIDE_LEFT) {
             newDate = oldDate.plusDays(1);
             newWeek = DateFragment.newWeek(newDate);
-            animateIn = R.animator.slide_in_left;
-            animateOut = R.animator.slide_out_left;
+            newWeek.setSlidingLeft(true);
+            dateFragment.setSlidingLeft(true);
         } else {
             newDate = oldDate.minusDays(1);
             newWeek = DateFragment.newWeek(newDate);
-            animateIn = R.animator.slide_in_right;
-            animateOut = R.animator.slide_out_right;
+            newWeek.setSlidingLeft(false);
+            dateFragment.setSlidingLeft(false);
         }
         dateFragment.clearSelection();
 
         getFragmentManager()
                 .beginTransaction()
-                .setCustomAnimations(animateIn, animateOut)
                 .replace(R.id.date_bar, newWeek, DateFragment.TAG)
                 .commit();
+    }
+
+    @Subscribe
+    public void enableListPager(SlideFinishedEvent event) {
+        mainListFragment.enableListPager();
     }
 
     @Subscribe

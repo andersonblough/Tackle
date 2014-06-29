@@ -1,5 +1,7 @@
 package com.tackle.v2.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +11,9 @@ import android.view.ViewGroup;
 import com.squareup.otto.Bus;
 import com.tackle.v2.R;
 import com.tackle.v2.event.events.DayClickedEvent;
+import com.tackle.v2.event.events.SlideFinishedEvent;
 import com.tackle.v2.util.SelectionUtil;
+import com.tackle.v2.util.SimpleAnimationListener;
 import com.tackle.v2.view.WeekView;
 
 import org.joda.time.DateTime;
@@ -34,6 +38,8 @@ public class DateFragment extends TackleBaseFragment {
 
     int selection;
     private DateTime dateTime;
+
+    private boolean slidingLeft;
 
 
     private View.OnClickListener onDaySelected = new View.OnClickListener() {
@@ -114,5 +120,37 @@ public class DateFragment extends TackleBaseFragment {
 
     public DateTime getDateTime() {
         return dateTime;
+    }
+
+    public void setSlidingLeft(boolean slidingLeft) {
+        this.slidingLeft = slidingLeft;
+    }
+
+    @Override
+    public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
+        Animator animator;
+        if (enter) {
+            if (slidingLeft) {
+                animator = AnimatorInflater.loadAnimator(getActivity(), R.animator.slide_in_left);
+            } else {
+                animator = AnimatorInflater.loadAnimator(getActivity(), R.animator.slide_in_right);
+            }
+        } else {
+            if (slidingLeft) {
+                animator = AnimatorInflater.loadAnimator(getActivity(), R.animator.slide_out_left);
+            } else {
+                animator = AnimatorInflater.loadAnimator(getActivity(), R.animator.slide_out_right);
+            }
+        }
+
+        animator.addListener(new SimpleAnimationListener() {
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                super.onAnimationEnd(animator);
+                eventBus.post(new SlideFinishedEvent());
+            }
+        });
+
+        return animator;
     }
 }
