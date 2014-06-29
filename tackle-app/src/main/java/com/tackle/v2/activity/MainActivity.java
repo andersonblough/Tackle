@@ -4,31 +4,37 @@ package com.tackle.v2.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.ViewSwitcher;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.tackle.data.model.TackleEvent;
+import com.tackle.data.util.DateUtil;
 import com.tackle.v2.R;
 import com.tackle.v2.event.events.AddItemEvent;
 import com.tackle.v2.event.events.DateBarEvent;
 import com.tackle.v2.event.events.DayClickedEvent;
-import com.tackle.v2.event.events.MonthChangedEvent;
 import com.tackle.v2.event.events.SetDayEvent;
 import com.tackle.v2.event.events.SlideEvent;
 import com.tackle.v2.fragments.AddFragment;
 import com.tackle.v2.fragments.DateFragment;
 import com.tackle.v2.fragments.MainListFragment;
-import com.tackle.v2.util.DateUtil;
+import com.tackle.v2.fragments.TackleBaseFragment;
 import com.tackle.v2.util.MonthUtil;
 
 import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 
-public class MainActivity extends DrawerActivity {
+import butterknife.InjectView;
+
+public class MainActivity extends DrawerActivity implements TackleBaseFragment.DateChangeListener {
+
+    @InjectView(R.id.month_view)
+    public ImageSwitcher monthView;
 
     @Inject
     Bus eventBus;
@@ -62,22 +68,26 @@ public class MainActivity extends DrawerActivity {
                 .commit();
 
         enableNavDrawer(true);
+
     }
 
     @Override
     protected void onResume() {
-        eventBus.register(this);
-        setupMonthViewSwitcher();
         super.onResume();
+        eventBus.register(this);
+        setupUI();
+    }
+
+    private void setupUI() {
+        if (monthView.getChildCount() == 0) {
+            setupMonthViewSwitcher();
+        }
     }
 
     @Override
     protected void onPause() {
         eventBus.unregister(this);
-        monthView.removeAllViews();
-        monthView.setInAnimation(null);
-        monthView.setOutAnimation(null);
-        if (dateFragment != null){
+        if (dateFragment != null) {
             selectedDate = dateFragment.getDateTime();
         }
         super.onPause();
@@ -90,9 +100,14 @@ public class MainActivity extends DrawerActivity {
     }
 
     @Subscribe
+    public void saveTackleEvent(TackleEvent tackleEvent) {
+        tackleEvent.setStartDate(selectedDate.getMillis());
+        tackleEvent.saveAsync();
+    }
+
+    @Subscribe
     public void addNewItem(AddItemEvent event) {
         enableNavDrawer(false);
-        selectedDate = dateFragment.getDateTime();
         AddFragment addFragment = new AddFragment();
         addFragment.setItemType(event.itemType);
         fragmentManager.beginTransaction()
@@ -121,12 +136,12 @@ public class MainActivity extends DrawerActivity {
     }
 
     @Subscribe
-    public void slide(SlideEvent event){
+    public void slide(SlideEvent event) {
         int animateIn, animateOut;
         DateFragment newWeek;
         DateTime oldDate = dateFragment.getDateTime();
         DateTime newDate;
-        if (event.direction == SlideEvent.SLIDE_LEFT){
+        if (event.direction == SlideEvent.SLIDE_LEFT) {
             newDate = oldDate.plusDays(1);
             newWeek = DateFragment.newWeek(newDate);
             animateIn = R.animator.slide_in_left;
@@ -144,8 +159,6 @@ public class MainActivity extends DrawerActivity {
                 .setCustomAnimations(animateIn, animateOut)
                 .replace(R.id.date_bar, newWeek, DateFragment.TAG)
                 .commit();
-
-        checkIfMonthChanged(oldDate, newDate);
     }
 
     @Subscribe
@@ -159,42 +172,49 @@ public class MainActivity extends DrawerActivity {
         mainListFragment.setSelectedPage(event.daySelected);
     }
 
-    @Subscribe
-    public void monthChanged(MonthChangedEvent event){
-        monthView.setInAnimation(AnimationUtils.makeInAnimation(this, event.fromLeft));
-        monthView.setOutAnimation(AnimationUtils.makeOutAnimation(this, event.fromLeft));
-        monthView.setImageResource(MonthUtil.getResourceID(event.month));
+    @Override
+    public void setDate(DateTime selectedDate) {
+        DateTime oldDate = this.selectedDate;
+        this.selectedDate = selectedDate;
+        checkIfMonthChanged(oldDate, selectedDate);
     }
 
-    public void checkIfMonthChanged(DateTime oldDate, DateTime newDate){
+    private void checkIfMonthChanged(DateTime oldDate, DateTime newDate) {
         int oldMonth = oldDate.getMonthOfYear();
         int newMonth = newDate.getMonthOfYear();
         if (newMonth < oldMonth) {
-            if (newMonth == 1 && oldMonth != 2){
-                monthChanged(MonthChangedEvent.newMonth(newMonth, false));
+            if (newMonth == 1 && oldMonth != 2) {
+                monthChanged(newMonth, false);
             } else {
-                monthChanged(MonthChangedEvent.newMonth(newMonth, true));
+                monthChanged(newMonth, true);
             }
-        } else if (newMonth > oldMonth){
-            if (newMonth == 12 && oldMonth != 11){
-                monthChanged(MonthChangedEvent.newMonth(newMonth, true));
+        } else if (newMonth > oldMonth) {
+            if (newMonth == 12 && oldMonth != 11) {
+                monthChanged(newMonth, true);
             } else {
-                monthChanged(MonthChangedEvent.newMonth(newMonth, false));
+                monthChanged(newMonth, false);
             }
         }
     }
 
-    public void setupMonthViewSwitcher(){
+    private void monthChanged(int month, boolean fromLeft) {
+        monthView.setInAnimation(AnimationUtils.makeInAnimation(this, fromLeft));
+        monthView.setOutAnimation(AnimationUtils.makeOutAnimation(this, fromLeft));
+        monthView.setImageResource(MonthUtil.getResourceID(month));
+    }
+
+    public void setupMonthViewSwitcher() {
 
         monthView.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
-                ImageView image =  new ImageView(getApplicationContext());
+                ImageView image = new ImageView(getApplicationContext());
                 image.setAdjustViewBounds(true);
                 return image;
             }
         });
         monthView.setImageResource(MonthUtil.getResourceID(selectedDate.getMonthOfYear()));
+
     }
 
 }

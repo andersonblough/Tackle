@@ -24,4 +24,9 @@ public class BaseModel extends Model {
     public long getId() {
         return id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return (o instanceof TackleEvent) && (((TackleEvent) o).getId() == getId());
+    }
 }

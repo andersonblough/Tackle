@@ -18,14 +18,15 @@ import dagger.Provides;
 /**
  * @author andersonblough (bill.a@akta.com)
  */
-@Module(injects = {
-        DateFragment.class,
-        MainActivity.class,
-        MainListFragment.class,
-        NavigationDrawerFragment.class,
-        AddFragment.class,
-        DrawerActivity.class,
-        TackleApp.class})
+@Module(includes = {DataModule.class},
+        injects = {
+                DateFragment.class,
+                MainActivity.class,
+                MainListFragment.class,
+                NavigationDrawerFragment.class,
+                AddFragment.class,
+                DrawerActivity.class,
+                TackleApp.class})
 public class AppModule {
 
     private final TackleApp app;

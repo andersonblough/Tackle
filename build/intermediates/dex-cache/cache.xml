@@ -4,86 +4,62 @@
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/classes-f3d9d89603439afbf5f8b6d139c5eb7465c045a3.jar"
         jar="/Users/andersonblough/Tackle/build/intermediates/exploded-aar/se.emilsjolander/sprinkles/1.3.1/classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="b4a8880e81a27d1f7df02a20e5241cb00774a1ed"/>
+        jumboMode="false" revision="19.1.0" sha1="b4a8880e81a27d1f7df02a20e5241cb00774a1ed" />
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/rxjava-core-0.17.0-RC7-42ee8c97d768e17891b2e887921388d2d018c676.jar"
         jar="/Users/andersonblough/.gradle/caches/modules-2/files-2.1/com.netflix.rxjava/rxjava-core/0.17.0-RC7/af38f2b1659155a4127f9653b4be21982ea93207/rxjava-core-0.17.0-RC7.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="af38f2b1659155a4127f9653b4be21982ea93207"/>
+        jumboMode="false" revision="19.1.0" sha1="af38f2b1659155a4127f9653b4be21982ea93207" />
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/butterknife-5.1.0-448d7f9a183e5c3cee9e2a98d54826090d50c796.jar"
         jar="/Users/andersonblough/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/5.1.0/42e2b5bbe9a148d09d58f78362d02fcfa505c4d2/butterknife-5.1.0.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="42e2b5bbe9a148d09d58f78362d02fcfa505c4d2"/>
+        jumboMode="false" revision="19.1.0" sha1="42e2b5bbe9a148d09d58f78362d02fcfa505c4d2" />
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/support-v13-19.0.1-498e9906f14fb6cbfde6111d2ea8db7732add1e9.jar"
         jar="/Users/andersonblough/Documents/adt-bundle-mac-x86_64-20140321/sdk/extras/android/m2repository/com/android/support/support-v13/19.0.1/support-v13-19.0.1.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="a4d00c1fa39c05a544fc2221af40bbf76e07c7df"/>
+        jumboMode="false" revision="19.1.0" sha1="a4d00c1fa39c05a544fc2221af40bbf76e07c7df" />
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/javawriter-2.3.0-f99ff50ef2be49c0879f9f24a5f2da9dd8d241b7.jar"
         jar="/Users/andersonblough/.gradle/caches/modules-2/files-2.1/com.squareup/javawriter/2.3.0/4b290e394ea3109be5c0b7f08ff75de089125122/javawriter-2.3.0.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="4b290e394ea3109be5c0b7f08ff75de089125122"/>
+        jumboMode="false" revision="19.1.0" sha1="4b290e394ea3109be5c0b7f08ff75de089125122" />
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/classes-d43932bbe6111abb2514be174409c785725666fc.jar"
         jar="/Users/andersonblough/Tackle/build/intermediates/exploded-aar/Tackle/tackle-data/unspecified/classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="b7f11188401baaadb2fd87785896484fd57cfc32"/>
+        jumboMode="false" revision="19.1.0" sha1="b9ae2cb90d987cc8b7aef81769d7b5346dc04954" />
+    <item
+        dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/Parse-1.5.1-4ea5393c4cb50fc592fa762e91df4e5228e9a4d3.jar"
+        jar="/Users/andersonblough/Tackle/tackle-app/libs/Parse-1.5.1.jar" jumboMode="false"
+        revision="19.1.0" sha1="3d645417e7780d44f32e29a3ec6b729b75aef26c" />
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-5a958fe6f1ae017728b2f8e3b96cbc32d43e5e7a.jar"
         jar="/Users/andersonblough/Documents/adt-bundle-mac-x86_64-20140321/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+        jumboMode="false" revision="19.1.0" sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67" />
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/rxjava-android-0.17.0-RC7-5bd6e2c7446c75060901b8ce0abbbf337a746626.jar"
         jar="/Users/andersonblough/.gradle/caches/modules-2/files-2.1/com.netflix.rxjava/rxjava-android/0.17.0-RC7/d6fae8f06e1a5611e2a89ce559cc777abea6a4bd/rxjava-android-0.17.0-RC7.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="d6fae8f06e1a5611e2a89ce559cc777abea6a4bd"/>
+        jumboMode="false" revision="19.1.0" sha1="d6fae8f06e1a5611e2a89ce559cc777abea6a4bd" />
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/dagger-compiler-1.2.1-7044c47670bd17645269d931661dce838e3490fe.jar"
         jar="/Users/andersonblough/.gradle/caches/modules-2/files-2.1/com.squareup.dagger/dagger-compiler/1.2.1/c8bf6c2fda9b27f4d44a2aa4280df525a1408771/dagger-compiler-1.2.1.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="c8bf6c2fda9b27f4d44a2aa4280df525a1408771"/>
-    <item
-        dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/javax.inject-1-a13a0f924d7edc37aa5b5432344854919c93b74a.jar"
-        jar="/Users/andersonblough/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="6975da39a7040257bd51d21a231b76c915872d38"/>
+        jumboMode="false" revision="19.1.0" sha1="c8bf6c2fda9b27f4d44a2aa4280df525a1408771" />
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/joda-time-2.3-0d50860f088d61e024a583c74fe117d7a51b7f52.jar"
         jar="/Users/andersonblough/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.3/56498efd17752898cfcc3868c1b6211a07b12b8f/joda-time-2.3.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="56498efd17752898cfcc3868c1b6211a07b12b8f"/>
+        jumboMode="false" revision="19.1.0" sha1="56498efd17752898cfcc3868c1b6211a07b12b8f" />
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/dagger-1.2.1-c00ff3477b8c6388e8a097bb810642064cbbadab.jar"
         jar="/Users/andersonblough/.gradle/caches/modules-2/files-2.1/com.squareup.dagger/dagger/1.2.1/78f96ef00fceee95802930944b1fc4e0e1f9aacc/dagger-1.2.1.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="78f96ef00fceee95802930944b1fc4e0e1f9aacc"/>
+        jumboMode="false" revision="19.1.0" sha1="78f96ef00fceee95802930944b1fc4e0e1f9aacc" />
+    <item
+        dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/javax.inject-1-a13a0f924d7edc37aa5b5432344854919c93b74a.jar"
+        jar="/Users/andersonblough/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
+        jumboMode="false" revision="19.1.0" sha1="6975da39a7040257bd51d21a231b76c915872d38" />
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/classes-1c04afb028af8dba7318feec7e3a3712d434cb94.jar"
         jar="/Users/andersonblough/Tackle/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+        jumboMode="false" revision="19.1.0" sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28" />
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/otto-1.3.4-71b77c0b8611ffbebddb9965db1585f565a4fd62.jar"
         jar="/Users/andersonblough/.gradle/caches/modules-2/files-2.1/com.squareup/otto/1.3.4/4d72fb811c7b3c0e7f412112020d4430f044e510/otto-1.3.4.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="4d72fb811c7b3c0e7f412112020d4430f044e510"/>
+        jumboMode="false" revision="19.1.0" sha1="4d72fb811c7b3c0e7f412112020d4430f044e510" />
 
 </pre-dex-items>

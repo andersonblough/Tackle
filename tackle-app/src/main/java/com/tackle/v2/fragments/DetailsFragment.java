@@ -25,7 +25,7 @@ public class DetailsFragment extends TackleBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details, null);
         ButterKnife.inject(this, view);
-        listener.enableNavDrawer(false);
+        drawerListener.enableNavDrawer(false);
         return view;
     }
 

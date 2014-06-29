@@ -10,8 +10,8 @@ import se.emilsjolander.sprinkles.annotations.Table;
 public class TackleEvent extends BaseModel implements EventColumns {
 
     public static final int TYPE_TODO = 1;
-    public static final int TYPE_NOTE = 2;
-    public static final int TYPE_LIST = 3;
+    public static final int TYPE_LIST = 2;
+    public static final int TYPE_NOTE = 3;
     public static final int TYPE_EVENT = 4;
 
     public static final String TABLE_NAME = "tackle_events";
@@ -44,4 +44,18 @@ public class TackleEvent extends BaseModel implements EventColumns {
     public TackleEvent() {
         super();
     }
+
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setStartDate(long startDate) {
+        this.startDate = startDate;
+    }
 }
+

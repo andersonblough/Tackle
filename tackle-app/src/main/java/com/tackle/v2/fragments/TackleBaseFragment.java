@@ -7,21 +7,25 @@ import android.os.Bundle;
 
 import com.tackle.v2.TackleApp;
 
+import org.joda.time.DateTime;
+
 /**
  * @author andersonblough (bill.a@akta.com)
  */
 public class TackleBaseFragment extends Fragment {
 
-    FragmentListener listener;
+    DrawerListener drawerListener;
+    DateChangeListener dateChangeListener;
     ActionBar actionBar;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            listener = (FragmentListener) activity;
+            drawerListener = (DrawerListener) activity;
+            dateChangeListener = (DateChangeListener) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException("must implement FragmentListener");
+            throw new ClassCastException("must implement all listeners");
         }
     }
 
@@ -39,15 +43,19 @@ public class TackleBaseFragment extends Fragment {
         getActivity().invalidateOptionsMenu();
     }
 
-    public interface FragmentListener{
+    public interface DrawerListener {
         public void enableNavDrawer(boolean enable);
     }
 
-    public void setupUI(){
+    public interface DateChangeListener {
+        public void setDate(DateTime selectedDate);
+    }
+
+    public void setupUI() {
         setupActionBar();
     }
 
-    public void setupActionBar(){
+    public void setupActionBar() {
         actionBar = getActivity().getActionBar();
     }
 

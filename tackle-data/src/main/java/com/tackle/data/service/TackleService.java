@@ -1,34 +1,47 @@
 package com.tackle.data.service;
 
-import android.util.Log;
+import com.tackle.data.model.TackleEvent;
 
-import com.tackle.data.TackleData;
-import com.tackle.data.model.Category;
+import org.joda.time.DateTime;
 
-import rx.Observable;
-import rx.Subscriber;
+import java.util.List;
+
+import se.emilsjolander.sprinkles.ManyQuery;
+import se.emilsjolander.sprinkles.Query;
 
 /**
  * @author andersonblough (bill.a@akta.com)
  */
 public class TackleService {
 
-    public Observable<Category> createCategory(final Category category){
-        return Observable.create(new Observable.OnSubscribe<Category>() {
-            @Override
-            public void call(Subscriber<? super Category> subscriber) {
-                try {
-                    boolean saved = category.save();
-                    if (saved){
-                        subscriber.onNext(category);
-                        subscriber.onCompleted();
-                    } else {
-                        subscriber.onError(new Exception("Error saving category"));
-                    }
-                } catch (Exception e){
-                    Log.e(TackleData.TAG, e.toString());
+    public ManyQuery<TackleEvent> getByDay(DateTime dateTime, List<String> columns) {
+        long dayStart = dateTime.withTimeAtStartOfDay().getMillis();
+        long dayEnd = dateTime.plusDays(1).withTimeAtStartOfDay().getMillis();
+
+        return Query.many(TackleEvent.class, "SELECT "
+                + getColumnList(columns)
+                + " FROM "
+                + TackleEvent.TABLE_NAME
+                + " WHERE "
+                + TackleEvent.COLUMN_START_DATE
+                + " BETWEEN "
+                + dayStart
+                + " AND "
+                + dayEnd);
+    }
+
+    private String getColumnList(List<String> columns) {
+        StringBuilder columnList = new StringBuilder();
+        if (columns != null && columns.size() > 0) {
+            for (String column : columns) {
+                columnList.append(column);
+                if (columns.indexOf(column) != columns.size() - 1) {
+                    columnList.append(",");
                 }
             }
-        });
+        } else {
+            columnList.append("*");
+        }
+        return columnList.toString();
     }
 }

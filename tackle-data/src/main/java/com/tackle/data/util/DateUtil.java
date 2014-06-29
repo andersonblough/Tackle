@@ -1,4 +1,4 @@
-package com.tackle.v2.util;
+package com.tackle.data.util;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;

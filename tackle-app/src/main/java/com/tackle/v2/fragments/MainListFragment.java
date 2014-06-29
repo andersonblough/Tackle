@@ -1,6 +1,7 @@
 package com.tackle.v2.fragments;
 
 import android.app.ActionBar;
+import android.app.LoaderManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -12,14 +13,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.squareup.otto.Bus;
 import com.tackle.data.model.TackleEvent;
+import com.tackle.data.service.TackleService;
 import com.tackle.v2.R;
 import com.tackle.v2.TackleApp;
+import com.tackle.v2.adapter.EventListAdapter;
 import com.tackle.v2.adapter.ListPagerAdapter;
 import com.tackle.v2.event.events.AddItemEvent;
 import com.tackle.v2.event.events.SetDayEvent;
@@ -28,10 +29,16 @@ import com.tackle.v2.util.SelectionUtil;
 
 import org.joda.time.DateTime;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import se.emilsjolander.sprinkles.CursorList;
+import se.emilsjolander.sprinkles.ManyQuery;
+import se.emilsjolander.sprinkles.ModelList;
 
 /**
  * @author andersonblough (bill.a@akta.com)
@@ -45,26 +52,29 @@ public class MainListFragment extends TackleBaseFragment {
 
     @Inject
     Bus eventBus;
+    @Inject
+    TackleService tackleService;
 
-    ListPagerAdapter listPagerAdapter;
-    ListView[] listViews;
+    private static final List<String> COLUMNS = Arrays.asList(
+            TackleEvent.ID,
+            TackleEvent.COLUMN_TITLE,
+            TackleEvent.COLUMN_CATEGORY_ID,
+            TackleEvent.COLUMN_START_DATE,
+            TackleEvent.COLUMN_STATUS,
+            TackleEvent.COLUMN_TYPE
+    );
 
-    String[] items = {"apple", "bannana", "carrot", "date", "edemame", "bannana", "orange"};
-    String[] items2 = {"fish", "goat", "hare", "iguana", "jackass", "dog", "otter"};
-    String[] items3 = {"kangaroo", "llama", "mouse", "naughty", "otter", "rat"};
-    String[] items4 = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven"};
-    String[] items5 = {"six", "seven", "eight", "nine", "ten"};
-    String[] items6 = {"mlb", "nfl", "nhl", "nba", "mls"};
-    String[] items7 = {"red", "blue", "green", "yellow", "orange", "purple", "brown", "black", "white"};
-    String[] items8 = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven"};
-    String[] items9 = {"six", "seven", "eight", "nine", "ten"};
+    private ListPagerAdapter listPagerAdapter;
+    private ListView[] listViews;
+    private DateTime[] dates;
+    private int[] loaderIds;
 
     private int selectedPage;
 
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            
+
         }
     };
 
@@ -79,8 +89,10 @@ public class MainListFragment extends TackleBaseFragment {
             selectedPage = position;
             if (selectedPage == 8) {
                 eventBus.post(SlideEvent.newEvent(SlideEvent.SLIDE_LEFT));
+                dates = SelectionUtil.dateRange(dates[1].plusDays(7));
             } else if (selectedPage == 0) {
                 eventBus.post(SlideEvent.newEvent(SlideEvent.SLIDE_RIGHT));
+                dates = SelectionUtil.dateRange(dates[1].minusDays(7));
             } else {
                 eventBus.post(SetDayEvent.newEvent(position));
             }
@@ -90,57 +102,24 @@ public class MainListFragment extends TackleBaseFragment {
         @Override
         public void onPageScrollStateChanged(int state) {
             if (state == ViewPager.SCROLL_STATE_IDLE) {
-                if (selectedPage == 0 || selectedPage == 8) {
-                    SimpleListAdapter adapter0 = (SimpleListAdapter) listPagerAdapter.getListView(0).getAdapter();
-                    String[] titems0 = adapter0.getItems();
-                    SimpleListAdapter adapter1 = (SimpleListAdapter) listPagerAdapter.getListView(1).getAdapter();
-                    String[] titems1 = adapter1.getItems();
-                    SimpleListAdapter adapter2 = (SimpleListAdapter) listPagerAdapter.getListView(2).getAdapter();
-                    String[] titems2 = adapter2.getItems();
-                    SimpleListAdapter adapter3 = (SimpleListAdapter) listPagerAdapter.getListView(3).getAdapter();
-                    String[] titems3 = adapter3.getItems();
-                    SimpleListAdapter adapter4 = (SimpleListAdapter) listPagerAdapter.getListView(4).getAdapter();
-                    String[] titems4 = adapter4.getItems();
-                    SimpleListAdapter adapter5 = (SimpleListAdapter) listPagerAdapter.getListView(5).getAdapter();
-                    String[] titems5 = adapter5.getItems();
-                    SimpleListAdapter adapter6 = (SimpleListAdapter) listPagerAdapter.getListView(6).getAdapter();
-                    String[] titems6 = adapter6.getItems();
-                    SimpleListAdapter adapter7 = (SimpleListAdapter) listPagerAdapter.getListView(7).getAdapter();
-                    String[] titems7 = adapter7.getItems();
-                    SimpleListAdapter adapter8 = (SimpleListAdapter) listPagerAdapter.getListView(8).getAdapter();
-                    String[] titems8 = adapter8.getItems();
 
                     if (selectedPage == 0) {
                         //move to the left
-
-                        adapter7.setItems(titems0);
+                        ModelList<TackleEvent> events = ((EventListAdapter) listViews[0].getAdapter()).getEvents();
+                        ((EventListAdapter) listViews[7].getAdapter()).swapEvents(events);
                         viewPager.setCurrentItem(7, false);
-                        adapter8.setItems(titems1);
-                        adapter6.setItems(titems8);
-                        adapter5.setItems(titems7);
-                        adapter4.setItems(titems6);
-                        adapter3.setItems(titems5);
-                        adapter2.setItems(titems4);
-                        adapter1.setItems(titems3);
-                        adapter0.setItems(titems2);
+                        restartLoaders();
 
                     } else if (selectedPage == 8) {
                         //move to the right
-
-                        adapter1.setItems(titems8);
+                        ModelList<TackleEvent> events = ((EventListAdapter) listViews[8].getAdapter()).getEvents();
+                        ((EventListAdapter) listViews[1].getAdapter()).swapEvents(events);
                         viewPager.setCurrentItem(1, false);
-                        adapter0.setItems(titems7);
-                        adapter2.setItems(titems0);
-                        adapter3.setItems(titems1);
-                        adapter4.setItems(titems2);
-                        adapter5.setItems(titems3);
-                        adapter6.setItems(titems4);
-                        adapter7.setItems(titems5);
-                        adapter8.setItems(titems6);
+                        restartLoaders();
                     }
                 }
             }
-        }
+
     };
 
     public MainListFragment() {
@@ -149,6 +128,7 @@ public class MainListFragment extends TackleBaseFragment {
     public static MainListFragment newListFragment(DateTime dateTime){
         MainListFragment mainListFragment = new MainListFragment();
         mainListFragment.selectedPage = SelectionUtil.selectedDay(dateTime) + 1;
+        mainListFragment.dates = SelectionUtil.dateRange(dateTime);
         return mainListFragment;
     }
 
@@ -224,6 +204,7 @@ public class MainListFragment extends TackleBaseFragment {
     public void setupUI() {
         super.setupUI();
         setupViewPager();
+        restartLoaders();
     }
 
     private void setupViewPager() {
@@ -236,18 +217,8 @@ public class MainListFragment extends TackleBaseFragment {
             listViews[i].setClipToPadding(false);
             listViews[i].setDivider(new ColorDrawable(getResources().getColor(R.color.clear)));
             listViews[i].setOnItemClickListener(onItemClickListener);
+            listViews[i].setAdapter(new EventListAdapter(getActivity()));
         }
-
-        listViews[0].setAdapter(new SimpleListAdapter(items));
-        listViews[1].setAdapter(new SimpleListAdapter(items2));
-        listViews[2].setAdapter(new SimpleListAdapter(items3));
-        listViews[3].setAdapter(new SimpleListAdapter(items4));
-        listViews[4].setAdapter(new SimpleListAdapter(items5));
-        listViews[5].setAdapter(new SimpleListAdapter(items6));
-        listViews[6].setAdapter(new SimpleListAdapter(items7));
-        listViews[7].setAdapter(new SimpleListAdapter(items8));
-        listViews[8].setAdapter(new SimpleListAdapter(items9));
-
 
         listPagerAdapter = new ListPagerAdapter();
         listPagerAdapter.setListViews(listViews);
@@ -268,7 +239,6 @@ public class MainListFragment extends TackleBaseFragment {
                 }
             }
         });
-
     }
 
     public void setSelectedPage(int position) {
@@ -276,52 +246,36 @@ public class MainListFragment extends TackleBaseFragment {
         viewPager.setCurrentItem(selectedPage);
     }
 
-    private class SimpleListAdapter extends BaseAdapter {
-
-        String[] items;
-
-        public SimpleListAdapter(String[] items) {
-            super();
-            this.items = items;
+    private void restartLoaders() {
+        if (loaderIds == null) {
+            loaderIds = new int[listViews.length];
         }
-
-        @Override
-        public int getCount() {
-            return items.length;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return items[i];
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-
-            TextView tv = (TextView) view;
-            if (tv == null) {
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                tv = (TextView) inflater.inflate(R.layout.list_item, null);
+        LoaderManager loaderManager = getLoaderManager();
+        if (loaderManager != null) {
+            for (int loaderId : loaderIds) {
+                loaderManager.destroyLoader(loaderId);
             }
-
-            tv.setText(items[i]);
-            return tv;
-        }
-
-        public void setItems(String[] items) {
-            this.items = items;
-            notifyDataSetChanged();
-        }
-
-        public String[] getItems() {
-            return items;
+            startLoaders(loaderManager);
         }
     }
+
+    private void startLoaders(LoaderManager loaderManager) {
+        for (int i = 0; i < listViews.length; i++) {
+            final EventListAdapter adapter = (EventListAdapter) listViews[i].getAdapter();
+            loaderIds[i] = tackleService.getByDay(dates[i], COLUMNS).getAsync(loaderManager, new ManyQuery.ResultHandler<TackleEvent>() {
+                @Override
+                public boolean handleResult(CursorList<TackleEvent> tackleEvents) {
+                    if (tackleEvents.getCursor() != null) {
+                        adapter.swapEvents(ModelList.from(tackleEvents));
+                        tackleEvents.close();
+                    }
+                    return true;
+                }
+            }, TackleEvent.class);
+        }
+    }
+
+
 }
 
 

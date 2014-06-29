@@ -18,18 +18,18 @@ ext {
     mementoVersion = '0.2'
 
     libs = [
-            otto             : ('com.squareup:otto:' + ottoVersion),
-            jodatime         : ('joda-time:joda-time:' + jodaTimeVersion),
-            saripaar         : ('com.mobsandgeeks:android-saripaar:' + saripaarVersion),
-            butterknife      : ('com.jakewharton:butterknife:' + butterknifeVersion),
-            dagger           : ('com.squareup.dagger:dagger:' + daggerVersion),
-            daggerCompiler   : ('com.squareup.dagger:dagger-compiler:' + daggerVersion),
-            retrofit         : ('com.squareup.retrofit:retrofit:' + retrofitVersion),
-            retrofitXML      : ('com.squareup.retrofit:converter-simplexml:' + retrofitVersion),
-            okhttp           : ('com.squareup.okhttp:okhttp:' + okhttpVersion),
-            rxjava           : ('com.netflix.rxjava:rxjava-core:' + rxjavaVersion),
-            rxjavaAndroid    : ('com.netflix.rxjava:rxjava-android:' + rxjavaVersion),
-            memento          : ("com.github.mttkay.memento:memento:" + mementoVersion)
+            otto          : ('com.squareup:otto:' + ottoVersion),
+            jodatime      : ('joda-time:joda-time:' + jodaTimeVersion),
+            saripaar      : ('com.mobsandgeeks:android-saripaar:' + saripaarVersion),
+            butterknife   : ('com.jakewharton:butterknife:' + butterknifeVersion),
+            dagger        : ('com.squareup.dagger:dagger:' + daggerVersion),
+            daggerCompiler: ('com.squareup.dagger:dagger-compiler:' + daggerVersion),
+            retrofit      : ('com.squareup.retrofit:retrofit:' + retrofitVersion),
+            retrofitXML   : ('com.squareup.retrofit:converter-simplexml:' + retrofitVersion),
+            okhttp        : ('com.squareup.okhttp:okhttp:' + okhttpVersion),
+            rxjava        : ('com.netflix.rxjava:rxjava-core:' + rxjavaVersion),
+            rxjavaAndroid : ('com.netflix.rxjava:rxjava-android:' + rxjavaVersion),
+            memento       : ("com.github.mttkay.memento:memento:" + mementoVersion)
     ]
 
     testLibs = [
@@ -44,7 +44,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.11.+'
+        classpath 'com.android.tools.build:gradle:0.12.+'
     }
 }
 

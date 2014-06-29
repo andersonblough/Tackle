@@ -17,12 +17,10 @@ import android.widget.ImageView;
 import android.widget.SpinnerAdapter;
 
 import com.squareup.otto.Bus;
+import com.tackle.data.model.TackleEvent;
 import com.tackle.v2.R;
-import com.tackle.v2.TackleApp;
 import com.tackle.v2.event.events.DateBarEvent;
 import com.tackle.v2.view.CustomEditText;
-
-import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -71,7 +69,9 @@ public class AddFragment extends TackleBaseFragment {
 
     @OnClick(R.id.more)
     public void onMoreClicked() {
-
+        TackleEvent tackleEvent = new TackleEvent();
+        tackleEvent.setTitle(labelField.getText().toString());
+        eventBus.post(tackleEvent);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class AddFragment extends TackleBaseFragment {
         actionBar.setSelectedNavigationItem(itemType - 1);
     }
 
-    private void showKeyboard(){
+    private void showKeyboard() {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(labelField, InputMethodManager.SHOW_IMPLICIT);
     }
@@ -168,7 +168,7 @@ public class AddFragment extends TackleBaseFragment {
         this.itemType = itemType;
     }
 
-    private void setLabelField(){
+    private void setLabelField() {
         String[] types = getResources().getStringArray(R.array.types);
         labelField.setHint("tackle a new " + types[itemType - 1]);
     }

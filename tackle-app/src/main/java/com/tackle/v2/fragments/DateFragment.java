@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.squareup.otto.Bus;
 import com.tackle.v2.R;
 import com.tackle.v2.event.events.DayClickedEvent;
-import com.tackle.v2.event.events.MonthChangedEvent;
 import com.tackle.v2.util.SelectionUtil;
 import com.tackle.v2.view.WeekView;
 
@@ -35,6 +34,7 @@ public class DateFragment extends TackleBaseFragment {
 
     int selection;
     private DateTime dateTime;
+
 
     private View.OnClickListener onDaySelected = new View.OnClickListener() {
         @Override
@@ -101,9 +101,8 @@ public class DateFragment extends TackleBaseFragment {
     public void setSelection(int position) {
         int oldSelection = selection;
         selection = position - 1;
-        DateTime newDate = dateTime.plusDays(selection - oldSelection);
-        checkifMonthChanged(newDate);
-        dateTime = newDate;
+        dateTime = dateTime.plusDays(selection - oldSelection);
+        dateChangeListener.setDate(dateTime);
 
         weekView.get(oldSelection).setBackgroundResource(R.drawable.day_sel);
         weekView.get(selection).setBackgroundColor(getResources().getColor(R.color.white70));
@@ -115,27 +114,5 @@ public class DateFragment extends TackleBaseFragment {
 
     public DateTime getDateTime() {
         return dateTime;
-    }
-
-    public void setDateTime(DateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    private void checkifMonthChanged(DateTime newDate) {
-        int oldMonth = dateTime.getMonthOfYear();
-        int newMonth = newDate.getMonthOfYear();
-        if (newMonth < oldMonth) {
-            if (newMonth == 1 && oldMonth != 2){
-                eventBus.post(MonthChangedEvent.newMonth(newMonth, false));
-            } else {
-                eventBus.post(MonthChangedEvent.newMonth(newMonth, true));
-            }
-        } else if (newMonth > oldMonth) {
-            if (newMonth == 12 && oldMonth != 11) {
-                eventBus.post(MonthChangedEvent.newMonth(newMonth, true));
-            } else {
-                eventBus.post(MonthChangedEvent.newMonth(newMonth, false));
-            }
-        }
     }
 }
