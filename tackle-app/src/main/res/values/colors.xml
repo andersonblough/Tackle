@@ -24,10 +24,10 @@
     <!--0%    — 00-->
 
     <color name="text_grey">#363636</color>
-    <color name="app_background">#e2e2e2</color>
+    <color name="app_background">#E2E2E2</color>
     <color name="app_med_grey">#595959</color>
-    <color name="app_light_grey">#878787</color>
-    <color name="app_xlight_grey">#C7C7C7</color>
+    <color name="app_light_grey">#BDBDBD</color>
+    <color name="app_xlight_grey">#E0E0E0</color>
 
     <color name="black90">#E6000000</color>
     <color name="black70">#B3000000</color>
@@ -35,6 +35,7 @@
     <color name="black10">#1A000000</color>
 
     <color name="grey70">#B3878787</color>
+    <color name="grey50">#80595959</color>
 
     <color name="white90">#E6FFFFFF</color>
     <color name="white70">#B3FFFFFF</color>

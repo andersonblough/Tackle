@@ -2,8 +2,9 @@
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@drawable/bg_list_normal"
+    android:background="@drawable/list_item_bg_sel"
     android:gravity="center_vertical"
+    android:clickable="true"
     android:padding="8dp">
 
 </TextView>

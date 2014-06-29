@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/app_xlight_grey">
+        android:background="@color/app_background">
 
         <ImageSwitcher
             android:id="@+id/month_view"
@@ -34,27 +34,25 @@
             android:id="@+id/date_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/date_bar_h"
-            android:layout_alignBottom="@+id/month_view"/>
+            android:layout_alignBottom="@+id/month_view" />
 
         <FrameLayout
             android:id="@+id/main_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/month_view">
-        </FrameLayout>
+            android:layout_below="@+id/month_view"></FrameLayout>
 
         <FrameLayout
             android:id="@+id/overlay_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/month_view">
-        </FrameLayout>
+            android:layout_below="@+id/month_view"></FrameLayout>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/month_view"/>
+            android:layout_below="@+id/month_view" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -71,9 +69,7 @@
         android:layout_gravity="start"
         android:layout_marginTop="?android:actionBarSize"
         android:name="com.tackle.v2.fragments.NavigationDrawerFragment"
-        tools:layout="@layout/fragment_nav_drawer"
-        />
-
+        tools:layout="@layout/fragment_nav_drawer" />
 
 
 </android.support.v4.widget.DrawerLayout>
