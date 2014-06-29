@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.squareup.otto.Bus;
@@ -36,6 +37,9 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
 
     @InjectView(R.id.month_view)
     public ImageSwitcher monthView;
+
+    @InjectView(R.id.month_year)
+    TextView monthAndYear;
 
     @Inject
     Bus eventBus;
@@ -189,23 +193,24 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
         int newMonth = newDate.getMonthOfYear();
         if (newMonth < oldMonth) {
             if (newMonth == 1 && oldMonth != 2) {
-                monthChanged(newMonth, false);
+                monthChanged(newDate, false);
             } else {
-                monthChanged(newMonth, true);
+                monthChanged(newDate, true);
             }
         } else if (newMonth > oldMonth) {
             if (newMonth == 12 && oldMonth != 11) {
-                monthChanged(newMonth, true);
+                monthChanged(newDate, true);
             } else {
-                monthChanged(newMonth, false);
+                monthChanged(newDate, false);
             }
         }
     }
 
-    private void monthChanged(int month, boolean fromLeft) {
+    private void monthChanged(DateTime dateTime, boolean fromLeft) {
         monthView.setInAnimation(AnimationUtils.makeInAnimation(this, fromLeft));
         monthView.setOutAnimation(AnimationUtils.makeOutAnimation(this, fromLeft));
-        monthView.setImageResource(MonthUtil.getResourceID(month));
+        monthView.setImageResource(MonthUtil.getResourceID(dateTime.getMonthOfYear()));
+        monthAndYear.setText(dateTime.monthOfYear().getAsText() + " " + dateTime.year().getAsText());
     }
 
     public void setupMonthViewSwitcher() {
@@ -219,6 +224,7 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
             }
         });
         monthView.setImageResource(MonthUtil.getResourceID(selectedDate.getMonthOfYear()));
+        monthAndYear.setText(selectedDate.monthOfYear().getAsText() + " " + selectedDate.year().getAsText());
 
     }
 

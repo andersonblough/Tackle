@@ -111,7 +111,7 @@ public class DateFragment extends TackleBaseFragment {
         dateChangeListener.setDate(dateTime);
 
         weekView.get(oldSelection).setBackgroundResource(R.drawable.day_sel);
-        weekView.get(selection).setBackgroundColor(getResources().getColor(R.color.white70));
+        weekView.get(selection).setBackgroundColor(getResources().getColor(R.color.white90));
     }
 
     public void clearSelection() {
