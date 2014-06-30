@@ -3,32 +3,33 @@ package com.tackle.v2.adapter;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+
+import com.tackle.v2.view.ListPage;
 
 /**
  * @author andersonblough (bill.a@akta.com)
  */
 public class ListPagerAdapter extends PagerAdapter {
-    private ListView[] listViews;
+    private ListPage[] listPages;
 
     public ListPagerAdapter() {
         super();
     }
 
-    public void setListViews(ListView[] listViews) {
-        this.listViews = listViews;
+    public void setListPages(ListPage[] listPages) {
+        this.listPages = listPages;
     }
 
     @Override
     public int getCount() {
-        return listViews.length;
+        return listPages.length;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        ListView listView = listViews[position];
-        container.addView(listView);
-        return listView;
+        ListPage listPage = listPages[position];
+        container.addView(listPage);
+        return listPage;
 
     }
 
@@ -40,9 +41,5 @@ public class ListPagerAdapter extends PagerAdapter {
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
-    }
-
-    public ListView getListView(int position) {
-        return listViews[position];
     }
 }

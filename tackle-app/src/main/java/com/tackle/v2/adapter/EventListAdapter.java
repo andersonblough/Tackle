@@ -34,11 +34,11 @@ public class EventListAdapter extends BaseAdapter {
         } else if (!tackleEvents.containsAll(events)) {
             swap = true;
         }
+
         if (swap) {
             this.tackleEvents = events;
             notifyDataSetChanged();
         }
-
     }
 
     @Override

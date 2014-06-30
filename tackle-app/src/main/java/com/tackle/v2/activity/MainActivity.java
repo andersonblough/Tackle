@@ -142,7 +142,6 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
 
     @Subscribe
     public void slide(SlideEvent event) {
-        int animateIn, animateOut;
         DateFragment newWeek;
         DateTime oldDate = dateFragment.getDateTime();
         DateTime newDate;

@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.squareup.otto.Bus;
 import com.tackle.data.model.TackleEvent;
@@ -26,7 +25,9 @@ import com.tackle.v2.event.events.AddItemEvent;
 import com.tackle.v2.event.events.SetDayEvent;
 import com.tackle.v2.event.events.SlideEvent;
 import com.tackle.v2.util.SelectionUtil;
+import com.tackle.v2.view.ListPage;
 import com.tackle.v2.view.ListPager;
+import com.tackle.v2.view.QuoteView;
 
 import org.joda.time.DateTime;
 
@@ -65,14 +66,11 @@ public class MainListFragment extends TackleBaseFragment {
             TackleEvent.COLUMN_TYPE
     );
 
-    private ListPagerAdapter listPagerAdapter;
-    private ListView[] listViews;
+    private ListPage[] listPages;
     private DateTime[] dates;
     private int[] loaderIds;
 
     private int selectedPage;
-
-    private boolean settled;
 
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
@@ -107,20 +105,27 @@ public class MainListFragment extends TackleBaseFragment {
         @Override
         public void onPageScrollStateChanged(int state) {
             if (state == ViewPager.SCROLL_STATE_IDLE) {
-                if (selectedPage == 0) {
-                    //move to the left
-                    ModelList<TackleEvent> events = ((EventListAdapter) listViews[0].getAdapter()).getEvents();
-                    ((EventListAdapter) listViews[7].getAdapter()).swapEvents(events);
-                    listPager.setCurrentItem(7, false);
-                    restartLoaders();
-
-                } else if (selectedPage == 8) {
-                    //move to the right
-                    ModelList<TackleEvent> events = ((EventListAdapter) listViews[8].getAdapter()).getEvents();
-                    ((EventListAdapter) listViews[1].getAdapter()).swapEvents(events);
-                    listPager.setCurrentItem(1, false);
+                int newPage;
+                switch (selectedPage) {
+                    case 0:
+                        newPage = 7;
+                        break;
+                    case 8:
+                        newPage = 1;
+                        break;
+                    default:
+                        newPage = 0;
+                        break;
+                }
+                if (newPage != 0) {
+                    ModelList<TackleEvent> events = listPages[selectedPage].getAdapter().getEvents();
+                    QuoteView quoteView = listPages[selectedPage].getQuoteView();
+                    listPages[newPage].getAdapter().swapEvents(events);
+                    listPages[newPage].swapQuotes(quoteView);
+                    listPager.setCurrentItem(newPage, false);
                     restartLoaders();
                 }
+
             }
         }
 
@@ -155,7 +160,7 @@ public class MainListFragment extends TackleBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_list, null);
         ButterKnife.inject(this, view);
-        listViews = new ListView[9];
+        listPages = new ListPage[9];
         return view;
     }
 
@@ -214,20 +219,16 @@ public class MainListFragment extends TackleBaseFragment {
     private void setupViewPager() {
         final float offset = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
 
-        for (int i = 0; i < listViews.length; i++) {
-            listViews[i] = new ListView(getActivity());
-            listViews[i].setPadding(8, 16, 8, 16);
-            listViews[i].setVerticalScrollBarEnabled(false);
-            listViews[i].setClipToPadding(false);
-            listViews[i].setDivider(new ColorDrawable(getResources().getColor(R.color.clear)));
-            listViews[i].setOnItemClickListener(onItemClickListener);
-            listViews[i].setAdapter(new EventListAdapter(getActivity()));
+        for (int i = 0; i < listPages.length; i++) {
+            listPages[i] = new ListPage(getActivity());
+            listPages[i].setOnItemClickListener(onItemClickListener);
         }
 
-        listPagerAdapter = new ListPagerAdapter();
-        listPagerAdapter.setListViews(listViews);
+        ListPagerAdapter listPagerAdapter = new ListPagerAdapter();
+        listPagerAdapter.setListPages(listPages);
 
         listPager.setAdapter(listPagerAdapter);
+        listPager.setOffscreenPageLimit(8);
         listPager.setCurrentItem(selectedPage);
         listPager.setOnPageChangeListener(onPageChangeListener);
         listPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -236,9 +237,9 @@ public class MainListFragment extends TackleBaseFragment {
         listPager.setPageTransformer(true, new ViewPager.PageTransformer() {
             @Override
             public void transformPage(View page, float position) {
-                ListView list = (ListView) page;
-                for (int i = 0; i < list.getChildCount(); i++) {
-                    View view = list.getChildAt(i);
+                ListPage listPage = (ListPage) page;
+                for (int i = 0; i < listPage.getListView().getChildCount(); i++) {
+                    View view = listPage.getListView().getChildAt(i);
                     view.setTranslationX(i * offset * position);
                 }
             }
@@ -252,11 +253,16 @@ public class MainListFragment extends TackleBaseFragment {
 
     public void enableListPager() {
         listPager.setPagingEnabled(true);
+        for (int i = 0; i < listPages.length; i++) {
+            if (i != 0 && i != 8) {
+                listPages[i].getQuoteView().setRandomQuote();
+            }
+        }
     }
 
     private void restartLoaders() {
         if (loaderIds == null) {
-            loaderIds = new int[listViews.length];
+            loaderIds = new int[listPages.length];
         }
         LoaderManager loaderManager = getLoaderManager();
         if (loaderManager != null) {
@@ -268,8 +274,9 @@ public class MainListFragment extends TackleBaseFragment {
     }
 
     private void startLoaders(LoaderManager loaderManager) {
-        for (int i = 0; i < listViews.length; i++) {
-            final EventListAdapter adapter = (EventListAdapter) listViews[i].getAdapter();
+        for (int i = 0; i < listPages.length; i++) {
+            final ListPage listPage = listPages[i];
+            final EventListAdapter adapter = listPage.getAdapter();
             loaderIds[i] = tackleService.getByDay(dates[i], COLUMNS).getAsync(loaderManager, new ManyQuery.ResultHandler<TackleEvent>() {
                 @Override
                 public boolean handleResult(CursorList<TackleEvent> tackleEvents) {
