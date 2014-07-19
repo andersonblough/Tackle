@@ -3,9 +3,110 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.tackle.v2.view.ListPager
+    <com.tackle.app.view.ListPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <View
+        android:id="@+id/cover_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="@color/white70"
+        android:clickable="true"
+        android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_item_height"
+        android:layout_alignParentBottom="true"
+        android:alpha="0.25"
+        android:rotation="180"
+        android:src="@drawable/actionbar_bg" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/add_button"
+        android:layout_centerHorizontal="true"
+        android:clipChildren="false"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/add_todo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/type_sel"
+            android:clickable="true"
+            android:padding="@dimen/type_circle_padding"
+            android:src="@drawable/ic_todo"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/add_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/type_sel"
+            android:clickable="true"
+            android:padding="@dimen/type_circle_padding"
+            android:src="@drawable/ic_list"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/add_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/type_sel"
+            android:clickable="true"
+            android:padding="@dimen/type_circle_padding"
+            android:src="@drawable/ic_note"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/add_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/type_sel"
+            android:clickable="true"
+            android:padding="@dimen/type_circle_padding"
+            android:src="@drawable/ic_event"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tackle"
+        android:layout_centerInParent="true"
+
+        android:background="@drawable/add_button_sel">
+
+        <ImageView
+            android:id="@+id/plus_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/plus_cancel_sel" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tackle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6dp"
+        android:fontFamily="sans-serif-light"
+        android:text="tackle something"
+        android:textColor="@color/black70"
+        android:textSize="12sp" />
 
 </RelativeLayout>

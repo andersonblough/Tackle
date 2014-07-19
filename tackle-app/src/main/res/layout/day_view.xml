@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/day_sel"
     android:gravity="center">
 
     <TextView
@@ -19,8 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
-        android:fontFamily="sans-serif-light"
         android:textSize="20dp"
+        android:textColor="@color/date_text_sel"
         android:gravity="center" />
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.tackle.data.model;
 
 import se.emilsjolander.sprinkles.Model;
+import se.emilsjolander.sprinkles.annotations.AutoIncrement;
 import se.emilsjolander.sprinkles.annotations.Column;
 import se.emilsjolander.sprinkles.annotations.Key;
 import se.emilsjolander.sprinkles.annotations.Table;
@@ -16,12 +17,20 @@ public class Category extends Model implements CategoryColumns {
             "(" + COLUMN_TITLE + ", " + COLUMN_COLOR + ") VALUES('" + CATEGORY_INBOX + "', '#B3B3B3')";
 
     public static final String TABLE_NAME = "categories";
+    public static final String ID = "_id";
 
+    @AutoIncrement
     @Key
+    @Column(ID)
+    private long id;
     @Column(COLUMN_TITLE)
     private String title;
     @Column(COLUMN_COLOR)
     private String color;
+
+    public long getId() {
+        return id;
+    }
 
     public String getTitle() {
         return title;

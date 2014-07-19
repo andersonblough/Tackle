@@ -29,23 +29,24 @@ public class TackleData {
             @Override
             protected void doMigration(SQLiteDatabase db) {
                 db.execSQL("CREATE TABLE " + TackleEvent.TABLE_NAME
-                + "(" + BaseModel.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + TackleEvent.COLUMN_TITLE + " TEXT, "
-                + TackleEvent.COLUMN_TYPE + " INTEGER, "
-                + TackleEvent.COLUMN_CATEGORY_ID + " INTEGER, "
-                + TackleEvent.COLUMN_NOTES + " TEXT, "
-                + TackleEvent.COLUMN_STATUS + " TEXT, "
-                + TackleEvent.COLUMN_START_DATE + " INTEGER, "
-                + TackleEvent.COLUMN_END_DATE + " INTEGER, "
-                + TackleEvent.COLUMN_FREQUENCY + " INTEGER, "
-                + TackleEvent.COLUMN_ALL_DAY + " INTEGER, "
-                + TackleEvent.COLUMN_BY_DAY + " TEXT, "
-                + TackleEvent.COLUMN_UNTIL + " INTEGER, "
-                + TackleEvent.COLUMN_COUNT + " INTEGER);");
+                        + "(" + BaseModel.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        + TackleEvent.COLUMN_TITLE + " TEXT, "
+                        + TackleEvent.COLUMN_TYPE + " INTEGER, "
+                        + TackleEvent.COLUMN_CATEGORY_ID + " INTEGER, "
+                        + TackleEvent.COLUMN_NOTES + " TEXT, "
+                        + TackleEvent.COLUMN_STATUS + " TEXT, "
+                        + TackleEvent.COLUMN_START_DATE + " INTEGER, "
+                        + TackleEvent.COLUMN_END_DATE + " INTEGER, "
+                        + TackleEvent.COLUMN_FREQUENCY + " INTEGER, "
+                        + TackleEvent.COLUMN_ALL_DAY + " INTEGER, "
+                        + TackleEvent.COLUMN_BY_DAY + " TEXT, "
+                        + TackleEvent.COLUMN_UNTIL + " INTEGER, "
+                        + TackleEvent.COLUMN_COUNT + " INTEGER);");
 
                 db.execSQL("CREATE TABLE " + Category.TABLE_NAME
-                + "(" + Category.COLUMN_TITLE + " TEXT PRIMARY KEY, "
-                + Category.COLUMN_COLOR + " TEXT);");
+                        + "(" + Category.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        + Category.COLUMN_TITLE + " TEXT, "
+                        + Category.COLUMN_COLOR + " TEXT);");
 
                 db.execSQL(Category.RAW_STATEMENT);
             }

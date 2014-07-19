@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.tackle.v2.view.CustomRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.tackle.app.view.CustomRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/date_container"
     android:layout_width="match_parent"
     android:layout_height="@dimen/date_bar_h"
     android:background="@color/white70">
 
-    <com.tackle.v2.view.WeekView
+    <com.tackle.app.view.WeekView
         android:id="@+id/week_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
 
-</com.tackle.v2.view.CustomRelativeLayout>
+</com.tackle.app.view.CustomRelativeLayout>

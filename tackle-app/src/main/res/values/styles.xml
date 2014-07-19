@@ -42,4 +42,20 @@
         <item name="android:src">@drawable/ic_overflow</item>
     </style>
 
+    <style name="ListItem">
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+    </style>
+
+    <style name="ListItem.Title">
+        <item name="android:textColor">@color/app_med_grey</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="ListItem.TextStyle">
+        <item name="android:textColor">@color/app_med_grey</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+
+
 </resources>

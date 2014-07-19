@@ -22,23 +22,34 @@
     <!--10%   — 1A-->
     <!--5%    — 0D-->
     <!--0%    — 00-->
+    <color name="shadow0">#00666666</color>
+    <color name="shadow1">#0D666666</color>
+    <color name="shadow2">#1A666666</color>
+    <color name="shadow3">#26666666</color>
+    <color name="shadow4">#33666666</color>
+    <color name="shadow5">#40666666</color>
+
 
     <color name="text_grey">#363636</color>
+    <color name="text_med_grey">#505050</color>
+
     <color name="app_background">#E2E2E2</color>
     <color name="app_med_grey">#595959</color>
     <color name="app_light_grey">#BDBDBD</color>
-    <color name="app_xlight_grey">#E0E0E0</color>
+    <color name="app_x_light_grey">#E0E0E0</color>
 
     <color name="black90">#E6000000</color>
     <color name="black70">#B3000000</color>
     <color name="black50">#80000000</color>
+    <color name="black30">#4D000000</color>
     <color name="black10">#1A000000</color>
 
     <color name="grey70">#B3878787</color>
     <color name="grey50">#80595959</color>
 
     <color name="white90">#E6FFFFFF</color>
-    <color name="white70">#B3FFFFFF</color>
+    <color name="white70">#BFFFFFFF</color>
+    <color name="white50">#80FFFFFF</color>
     <color name="white20">#33FFFFFF</color>
 
     <color name="tackle">#0DAD4B</color>
@@ -47,6 +58,9 @@
     <color name="clear">#0000</color>
     <color name="white">#fff</color>
 
+    <color name="red">#DD191D</color>
+
     <drawable name="popupBackground">@color/black90</drawable>
+
 
 </resources>

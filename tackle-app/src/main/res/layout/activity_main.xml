@@ -24,8 +24,8 @@
             android:layout_margin="4dp"
             android:layout_above="@+id/date_bar"
             android:layout_centerHorizontal="true"
-            android:shadowColor="@color/black70"
-            android:shadowRadius="4"
+            android:shadowColor="@color/black90"
+            android:shadowRadius="8"
             android:textStyle="bold"
             android:textSize="22dp"
             android:textColor="@color/white" />
@@ -68,7 +68,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:layout_marginTop="?android:actionBarSize"
-        android:name="com.tackle.v2.fragments.NavigationDrawerFragment"
+        android:name="com.tackle.app.fragments.NavigationDrawerFragment"
         tools:layout="@layout/fragment_nav_drawer" />
 
 

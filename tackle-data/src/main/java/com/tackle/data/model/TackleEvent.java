@@ -54,8 +54,28 @@ public class TackleEvent extends BaseModel implements EventColumns {
         this.title = title;
     }
 
+    public long getStartDate() {
+        return startDate;
+    }
+
     public void setStartDate(long startDate) {
         this.startDate = startDate;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public long getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(long categoryID) {
+        this.categoryID = categoryID;
     }
 }
 

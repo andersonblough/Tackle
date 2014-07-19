@@ -2,56 +2,57 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tackle="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.tackle.v2.view.DayView
+    <com.tackle.app.view.DayView
         android:id="@+id/date1"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        tackle:dayName="Sun"/>
+        tackle:dayName="Sun" />
 
-    <com.tackle.v2.view.DayView
+    <com.tackle.app.view.DayView
         android:id="@+id/date2"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        tackle:dayName="Mon"/>
+        tackle:dayName="Mon" />
 
-    <com.tackle.v2.view.DayView
+    <com.tackle.app.view.DayView
         android:id="@+id/date3"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        tackle:dayName="Tue"/>
+        tackle:dayName="Tue" />
 
-    <com.tackle.v2.view.DayView
+    <com.tackle.app.view.DayView
         android:id="@+id/date4"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        tackle:dayName="Wed"/>
+        tackle:dayName="Wed" />
 
-    <com.tackle.v2.view.DayView
+    <com.tackle.app.view.DayView
         android:id="@+id/date5"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        tackle:dayName="Thu"/>
+        tackle:dayName="Thu" />
 
-    <com.tackle.v2.view.DayView
+    <com.tackle.app.view.DayView
         android:id="@+id/date6"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        tackle:dayName="Fri"/>
+        tackle:dayName="Fri" />
 
-    <com.tackle.v2.view.DayView
+    <com.tackle.app.view.DayView
         android:id="@+id/date7"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        tackle:dayName="Sat"/>
+        tackle:dayName="Sat" />
 
 </LinearLayout>

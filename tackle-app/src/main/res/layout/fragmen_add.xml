@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.tackle.v2.view.CustomRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.tackle.app.view.CustomRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white70">
+    android:background="@color/white90">
 
-    <com.tackle.v2.view.CustomEditText
+    <com.tackle.app.view.CustomEditText
         android:id="@+id/event_label"
         android:layout_width="match_parent"
         android:paddingLeft="@dimen/edit_text_padding"
@@ -16,6 +16,8 @@
         android:inputType="textCapSentences"
         android:singleLine="true"
         android:textSize="20sp"
+        android:imeActionId="@integer/action_add"
+        android:imeActionLabel="Add"
         android:hint="tackle a new todo" />
 
     <ImageView
@@ -27,4 +29,4 @@
         android:clickable="true"
         android:src="@drawable/more" />
 
-</com.tackle.v2.view.CustomRelativeLayout>
+</com.tackle.app.view.CustomRelativeLayout>
