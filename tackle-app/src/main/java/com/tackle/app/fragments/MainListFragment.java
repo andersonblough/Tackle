@@ -27,8 +27,7 @@ import com.tackle.app.adapter.EventListAdapter;
 import com.tackle.app.adapter.ListPagerAdapter;
 import com.tackle.app.event.events.AddItemEvent;
 import com.tackle.app.event.events.SetDayEvent;
-import com.tackle.app.event.events.SlideEvent;
-import com.tackle.app.util.SelectionUtil;
+import com.tackle.app.util.DateNavUtil;
 import com.tackle.app.util.SimpleAnimationListener;
 import com.tackle.app.view.ListPage;
 import com.tackle.app.view.ListPager;
@@ -37,6 +36,7 @@ import com.tackle.data.model.TackleEvent;
 import com.tackle.data.service.TackleService;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -110,12 +110,12 @@ public class MainListFragment extends TackleBaseFragment {
         public void onPageSelected(int position) {
             selectedPage = position;
             if (selectedPage == 8) {
-                eventBus.post(SlideEvent.newEvent(SlideEvent.SLIDE_LEFT));
-                dates = SelectionUtil.dateRange(dates[1].plusDays(7));
+                dateChangeListener.newWeek(dates[8], true);
+                dates = DateNavUtil.dateRange(dates[1].plusDays(7));
                 listPager.setPagingEnabled(false);
             } else if (selectedPage == 0) {
-                eventBus.post(SlideEvent.newEvent(SlideEvent.SLIDE_RIGHT));
-                dates = SelectionUtil.dateRange(dates[1].minusDays(7));
+                dateChangeListener.newWeek(dates[0], false);
+                dates = DateNavUtil.dateRange(dates[1].minusDays(7));
                 listPager.setPagingEnabled(false);
             } else {
                 eventBus.post(SetDayEvent.newEvent(position));
@@ -157,8 +157,8 @@ public class MainListFragment extends TackleBaseFragment {
 
     public static MainListFragment newListFragment(DateTime dateTime) {
         MainListFragment mainListFragment = new MainListFragment();
-        mainListFragment.selectedPage = SelectionUtil.selectedDay(dateTime) + 1;
-        mainListFragment.dates = SelectionUtil.dateRange(dateTime);
+        mainListFragment.selectedPage = DateNavUtil.getDayOfWeek(dateTime) + 1;
+        mainListFragment.dates = DateNavUtil.dateRange(dateTime);
         return mainListFragment;
     }
 
@@ -226,6 +226,9 @@ public class MainListFragment extends TackleBaseFragment {
         if (activity.isDrawerOpen()) {
             menu.removeItem(R.id.month);
         }
+        if (DateTimeComparator.getDateOnlyInstance().compare(dates[selectedPage], DateTime.now()) == 0) {
+            menu.removeItem(R.id.today);
+        }
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -242,6 +245,8 @@ public class MainListFragment extends TackleBaseFragment {
             case R.id.month:
                 //TODO show month view
                 break;
+            case R.id.today:
+                dateChangeListener.setToday();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -264,7 +269,6 @@ public class MainListFragment extends TackleBaseFragment {
         }
 
         eventBus.post(AddItemEvent.newInstance(type));
-//        addItem();
     }
 
     @Override
@@ -284,6 +288,15 @@ public class MainListFragment extends TackleBaseFragment {
                 });
             }
         });
+    }
+
+    public void setupList(DateTime selectedDate, boolean reload) {
+        selectedPage = DateNavUtil.getDayOfWeek(selectedDate) + 1;
+        listPager.setCurrentItem(selectedPage);
+        if (reload) {
+            dates = DateNavUtil.dateRange(selectedDate);
+            restartLoaders();
+        }
     }
 
     private void setupViewPager() {

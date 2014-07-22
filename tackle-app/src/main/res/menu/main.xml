@@ -3,9 +3,16 @@
     tools:context="com.tackle.app.activity.MainActivity">
 
     <item
+        android:id="@+id/today"
+        android:orderInCategory="0"
+        android:showAsAction="always"
+        android:title="Today" />
+
+    <item
         android:id="@+id/month"
         android:orderInCategory="100"
         android:icon="@drawable/ic_month"
         android:showAsAction="ifRoom"
         android:title="Calendar" />
+
 </menu>

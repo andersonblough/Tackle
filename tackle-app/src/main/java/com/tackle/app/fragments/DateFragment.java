@@ -4,10 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,12 +14,11 @@ import com.squareup.otto.Bus;
 import com.tackle.app.R;
 import com.tackle.app.event.events.DayClickedEvent;
 import com.tackle.app.event.events.SlideFinishedEvent;
-import com.tackle.app.util.SelectionUtil;
+import com.tackle.app.util.DateNavUtil;
 import com.tackle.app.util.SimpleAnimationListener;
 import com.tackle.app.view.WeekView;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeComparator;
 
 import javax.inject.Inject;
 
@@ -57,7 +55,7 @@ public class DateFragment extends TackleBaseFragment {
     public static DateFragment newWeek(DateTime dateTime) {
         DateFragment dateFragment = new DateFragment();
         dateFragment.dateTime = dateTime;
-        dateFragment.selection = SelectionUtil.selectedDay(dateTime);
+        dateFragment.selection = DateNavUtil.getDayOfWeek(dateTime);
         return dateFragment;
     }
 
@@ -75,6 +73,26 @@ public class DateFragment extends TackleBaseFragment {
         for (int i = 0; i < weekView.size(); i++) {
             weekView.get(i).setId(i);
             weekView.get(i).setOnClickListener(onDaySelected);
+            GestureDetector gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
+
+                @Override
+                public boolean onSingleTapConfirmed(MotionEvent e) {
+                    return false;
+                }
+
+                @Override
+                public boolean onFling(MotionEvent start, MotionEvent finish, float velocityX, float velocityY) {
+                    if (start.getRawX() < finish.getRawX()) {
+                        dateChangeListener.newWeek(dateTime.minusDays(7), false);
+                        dateChangeListener.reloadList(dateTime.minusDays(7));
+                    } else {
+                        dateChangeListener.newWeek(dateTime.plusDays(7), true);
+                        dateChangeListener.reloadList(dateTime.plusDays(7));
+                    }
+                    return true;
+                }
+            });
+            weekView.setGestureDetector(gestureDetector);
         }
 
         if (dateTime.getDayOfWeek() == 7) {
@@ -107,28 +125,6 @@ public class DateFragment extends TackleBaseFragment {
     public void setupActionBar() {
         super.setupActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        if (dateTime != null && DateTimeComparator.getDateOnlyInstance().compare(dateTime, DateTime.now()) == 0) {
-            menu.removeItem(R.id.today);
-        }
-        super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.date_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.today) {
-            dateChangeListener.setToday(dateTime);
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public void setSelection(int position) {

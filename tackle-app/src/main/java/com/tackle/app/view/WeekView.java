@@ -2,6 +2,8 @@ package com.tackle.app.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
 import com.tackle.app.R;
@@ -19,6 +21,8 @@ public class WeekView extends LinearLayout {
     @InjectViews({R.id.date1, R.id.date2, R.id.date3, R.id.date4, R.id.date5, R.id.date6, R.id.date7})
     List<DayView> dateViews;
 
+    GestureDetector gestureDetector;
+
     public WeekView(Context context) {
         this(context, null);
     }
@@ -31,6 +35,11 @@ public class WeekView extends LinearLayout {
         super(context, attrs, defStyle);
         inflate(context, R.layout.week_view, this);
         ButterKnife.inject(this);
+
+    }
+
+    public void setGestureDetector(GestureDetector gestureDetector) {
+        this.gestureDetector = gestureDetector;
     }
 
     public DayView get(int selection) {
@@ -45,5 +54,16 @@ public class WeekView extends LinearLayout {
         for (int i = 0; i < dateViews.size(); i++) {
             dateViews.get(i).setDate(dates[i]);
         }
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return gestureDetector.onTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gestureDetector.onTouchEvent(event);
+
     }
 }

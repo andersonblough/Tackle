@@ -18,12 +18,12 @@ import com.tackle.app.event.events.AddItemEvent;
 import com.tackle.app.event.events.DateBarEvent;
 import com.tackle.app.event.events.DayClickedEvent;
 import com.tackle.app.event.events.SetDayEvent;
-import com.tackle.app.event.events.SlideEvent;
 import com.tackle.app.event.events.SlideFinishedEvent;
 import com.tackle.app.fragments.AddFragment;
 import com.tackle.app.fragments.DateFragment;
 import com.tackle.app.fragments.MainListFragment;
 import com.tackle.app.fragments.TackleBaseFragment;
+import com.tackle.app.util.DateNavUtil;
 import com.tackle.app.util.MonthUtil;
 import com.tackle.data.model.TackleEvent;
 import com.tackle.data.util.DateUtil;
@@ -48,20 +48,20 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
     MainListFragment mainListFragment;
     DateFragment dateFragment;
 
-    private DateTime selectedDate;
+    private DateTime currentDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
-            selectedDate = DateUtil.parseDate(savedInstanceState.getString("DATE"));
+            currentDate = DateUtil.parseDate(savedInstanceState.getString("DATE"));
         } else {
-            selectedDate = DateTime.now();
+            currentDate = DateTime.now();
         }
 
-        mainListFragment = MainListFragment.newListFragment(selectedDate);
-        dateFragment = DateFragment.newWeek(selectedDate);
+        mainListFragment = MainListFragment.newListFragment(currentDate);
+        dateFragment = DateFragment.newWeek(currentDate);
 
         fragmentManager
                 .beginTransaction()
@@ -94,7 +94,7 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
     protected void onPause() {
         eventBus.unregister(this);
         if (dateFragment != null) {
-            selectedDate = dateFragment.getDateTime();
+            currentDate = dateFragment.getDateTime();
         }
         super.onPause();
     }
@@ -102,12 +102,12 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("DATE", selectedDate.toString(DateUtil.DATE_FORMAT));
+        outState.putString("DATE", currentDate.toString(DateUtil.DATE_FORMAT));
     }
 
     @Subscribe
     public void saveTackleEvent(TackleEvent tackleEvent) {
-        tackleEvent.setStartDate(selectedDate.getMillis());
+        tackleEvent.setStartDate(currentDate.getMillis());
         tackleEvent.saveAsync();
         addDateBar(null);
     }
@@ -115,6 +115,7 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
     @Subscribe
     public void addNewItem(AddItemEvent event) {
         enableNavDrawer(false);
+        dateFragment = (DateFragment) getFragmentManager().findFragmentByTag(DateFragment.TAG);
         dateFragment.setIsSliding(false);
         AddFragment addFragment = new AddFragment();
         addFragment.setItemType(event.itemType);
@@ -131,7 +132,7 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                dateFragment = DateFragment.newWeek(selectedDate);
+                dateFragment = DateFragment.newWeek(currentDate);
                 fragmentManager
                         .beginTransaction()
                         .setCustomAnimations(R.animator.flip_in, R.animator.flip_out)
@@ -142,22 +143,16 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
 
     }
 
-    @Subscribe
-    public void slide(SlideEvent event) {
-        DateFragment newWeek;
-        DateTime oldDate = dateFragment.getDateTime();
-        DateTime newDate;
-        if (event.direction == SlideEvent.SLIDE_LEFT) {
-            newDate = oldDate.plusDays(1);
-            newWeek = DateFragment.newWeek(newDate);
-            newWeek.setSlidingLeft(true);
-            dateFragment.setSlidingLeft(true);
-        } else {
-            newDate = oldDate.minusDays(1);
-            newWeek = DateFragment.newWeek(newDate);
-            newWeek.setSlidingLeft(false);
-            dateFragment.setSlidingLeft(false);
-        }
+//    @Subscribe
+//    public void slide(SlideEvent event) {
+//
+//    }
+
+    public void newWeek(DateTime selectedDate, boolean slidingLeft) {
+        dateFragment = (DateFragment) getFragmentManager().findFragmentByTag(DateFragment.TAG);
+        DateFragment newWeek = DateFragment.newWeek(selectedDate);
+        newWeek.setSlidingLeft(slidingLeft);
+        dateFragment.setSlidingLeft(slidingLeft);
         dateFragment.clearSelection();
 
         getFragmentManager()
@@ -185,14 +180,31 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
     @Override
     public void setDate(DateTime selectedDate) {
         invalidateOptionsMenu();
-        DateTime oldDate = this.selectedDate;
-        this.selectedDate = selectedDate;
+        DateTime oldDate = this.currentDate;
+        this.currentDate = selectedDate;
         checkIfMonthChanged(oldDate, selectedDate);
     }
 
     @Override
-    public void setToday(DateTime dateTime) {
+    public void setToday() {
+        invalidateOptionsMenu();
+        DateTime today = DateTime.now();
+        if (DateNavUtil.isBeforeWeek(currentDate, today)) {
+            newWeek(today, false);
+            mainListFragment.setupList(today, true);
+        } else if (DateNavUtil.isAfterWeek(currentDate, today)) {
+            newWeek(today, true);
+            mainListFragment.setupList(today, true);
+        } else {
+            mainListFragment.setupList(today, false);
+        }
+        checkIfMonthChanged(currentDate, today);
+        currentDate = today;
+    }
 
+    @Override
+    public void reloadList(DateTime selectedDate) {
+        mainListFragment.setupList(selectedDate, true);
     }
 
     private void checkIfMonthChanged(DateTime oldDate, DateTime newDate) {
@@ -232,8 +244,8 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
                 return image;
             }
         });
-        monthView.setImageResource(MonthUtil.getResourceID(selectedDate.getMonthOfYear()));
-        monthAndYear.setText(selectedDate.monthOfYear().getAsText() + " " + selectedDate.year().getAsText());
+        monthView.setImageResource(MonthUtil.getResourceID(currentDate.getMonthOfYear()));
+        monthAndYear.setText(currentDate.monthOfYear().getAsText() + " " + currentDate.year().getAsText());
 
     }
 

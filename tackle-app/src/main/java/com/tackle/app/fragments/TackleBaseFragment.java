@@ -50,7 +50,11 @@ public class TackleBaseFragment extends Fragment {
     public interface DateChangeListener {
         public void setDate(DateTime selectedDate);
 
-        public void setToday(DateTime dateTime);
+        public void setToday();
+
+        public void newWeek(DateTime selectedDate, boolean slidingLeft);
+
+        public void reloadList(DateTime selectedDate);
     }
 
     public void setupUI() {
