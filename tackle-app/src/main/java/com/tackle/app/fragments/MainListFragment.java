@@ -1,6 +1,5 @@
 package com.tackle.app.fragments;
 
-import android.animation.Animator;
 import android.app.ActionBar;
 import android.app.LoaderManager;
 import android.graphics.drawable.ColorDrawable;
@@ -13,11 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.otto.Bus;
 import com.tackle.app.R;
@@ -25,10 +20,9 @@ import com.tackle.app.TackleApp;
 import com.tackle.app.activity.DrawerActivity;
 import com.tackle.app.adapter.EventListAdapter;
 import com.tackle.app.adapter.ListPagerAdapter;
-import com.tackle.app.event.events.AddItemEvent;
+import com.tackle.app.event.events.DetailsEvent;
 import com.tackle.app.event.events.SetDayEvent;
 import com.tackle.app.util.DateNavUtil;
-import com.tackle.app.util.SimpleAnimationListener;
 import com.tackle.app.view.ListPage;
 import com.tackle.app.view.ListPager;
 import com.tackle.app.view.QuoteView;
@@ -45,8 +39,6 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.InjectViews;
-import butterknife.OnClick;
 import se.emilsjolander.sprinkles.CursorList;
 import se.emilsjolander.sprinkles.ManyQuery;
 import se.emilsjolander.sprinkles.ModelList;
@@ -60,18 +52,6 @@ public class MainListFragment extends TackleBaseFragment {
 
     @InjectView(R.id.view_pager)
     ListPager listPager;
-    @InjectView(R.id.add_button)
-    ViewGroup addButton;
-    @InjectView(R.id.plus_icon)
-    ImageView plusIcon;
-    @InjectView(R.id.tackle)
-    TextView tackleAddHint;
-    @InjectView(R.id.cover_view)
-    View coverView;
-
-    @InjectViews({R.id.add_todo, R.id.add_list, R.id.add_note, R.id.add_event})
-    List<ImageView> typeButtons;
-
 
     @Inject
     Bus eventBus;
@@ -96,7 +76,7 @@ public class MainListFragment extends TackleBaseFragment {
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            eventBus.post(DetailsEvent.Edit.newEvent(view));
         }
     };
 
@@ -197,34 +177,12 @@ public class MainListFragment extends TackleBaseFragment {
         eventBus.unregister(this);
     }
 
-    @OnClick(R.id.add_button)
-    public void addItem() {
-        float roatation;
-        if (plusIcon.isSelected()) {
-            hideTypes();
-            roatation = -135;
-        } else {
-            showTypes();
-            roatation = 135;
-        }
-        addButton.setEnabled(false);
-        addButton.animate().setDuration(440).rotationBy(roatation).setListener(new SimpleAnimationListener() {
-
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                super.onAnimationEnd(animator);
-                plusIcon.setSelected(!plusIcon.isSelected());
-                addButton.setEnabled(true);
-            }
-        }).start();
-
-    }
-
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         DrawerActivity activity = (DrawerActivity) getActivity();
         if (activity.isDrawerOpen()) {
             menu.removeItem(R.id.month);
+            menu.removeItem(R.id.today);
         }
         if (DateTimeComparator.getDateOnlyInstance().compare(dates[selectedPage], DateTime.now()) == 0) {
             menu.removeItem(R.id.today);
@@ -251,43 +209,11 @@ public class MainListFragment extends TackleBaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void addItem(int id) {
-        int type;
-        switch (id) {
-            case R.id.add_note:
-                type = TackleEvent.TYPE_NOTE;
-                break;
-            case R.id.add_list:
-                type = TackleEvent.TYPE_LIST;
-                break;
-            case R.id.add_event:
-                type = TackleEvent.TYPE_EVENT;
-                break;
-            default:
-                type = TackleEvent.TYPE_TODO;
-                break;
-        }
-
-        eventBus.post(AddItemEvent.newInstance(type));
-    }
-
     @Override
     public void setupUI() {
         super.setupUI();
         setupViewPager();
         restartLoaders();
-
-        ButterKnife.apply(typeButtons, new ButterKnife.Action<ImageView>() {
-            @Override
-            public void apply(ImageView view, int index) {
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        addItem(v.getId());
-                    }
-                });
-            }
-        });
     }
 
     public void setupList(DateTime selectedDate, boolean reload) {
@@ -370,53 +296,6 @@ public class MainListFragment extends TackleBaseFragment {
                 }
             }, TackleEvent.class);
         }
-    }
-
-    private void showTypes() {
-        ButterKnife.apply(typeButtons, new ButterKnife.Action<ImageView>() {
-            @Override
-            public void apply(ImageView view, int index) {
-                view.setScaleX(0);
-                view.setScaleY(0);
-                view.setVisibility(View.VISIBLE);
-                view.animate().setDuration(200).setStartDelay(index * 80).scaleX(1.0f).scaleY(1.0f).setInterpolator(new DecelerateInterpolator()).setListener(new SimpleAnimationListener() {
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        super.onAnimationEnd(animator);
-                        tackleAddHint.setText("...maybe later");
-                    }
-                }).start();
-            }
-        });
-        coverView.setVisibility(View.VISIBLE);
-        coverView.animate().setDuration(440).alpha(1f).setListener(null).start();
-
-    }
-
-    private void hideTypes() {
-        ButterKnife.apply(typeButtons, new ButterKnife.Action<ImageView>() {
-            @Override
-            public void apply(final ImageView view, int index) {
-                view.animate().setDuration(200).setStartDelay((3 - index) * 80).scaleX(0).scaleY(0).setInterpolator(new AccelerateDecelerateInterpolator()).setListener(new SimpleAnimationListener() {
-
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        super.onAnimationEnd(animator);
-                        view.setVisibility(View.INVISIBLE);
-                        tackleAddHint.setText("tackle something");
-                    }
-                }).start();
-
-            }
-        });
-        coverView.animate().setDuration(440).alpha(0).setListener(new SimpleAnimationListener() {
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                super.onAnimationEnd(animator);
-                coverView.setVisibility(View.GONE);
-            }
-        }).start();
-
     }
 
 

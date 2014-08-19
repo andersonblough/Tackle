@@ -27,7 +27,9 @@ public class TackleService {
                 + " BETWEEN "
                 + dayStart
                 + " AND "
-                + dayEnd);
+                + dayEnd
+                + " ORDER BY "
+                + TackleEvent.COLUMN_STATUS);
     }
 
     private String getColumnList(List<String> columns) {

@@ -3,7 +3,10 @@ package com.tackle.app.fragments;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.tackle.app.TackleApp;
 
@@ -63,6 +66,16 @@ public class TackleBaseFragment extends Fragment {
 
     public void setupActionBar() {
         actionBar = getActivity().getActionBar();
+    }
+
+    public void showSoftKeyboard(EditText editText) {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    public void hideSoftKeyboard(EditText editText) {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
 }

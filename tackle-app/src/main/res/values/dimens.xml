@@ -10,7 +10,7 @@
     <!-- List dimensions -->
     <dimen name="list_side_padding">6dp</dimen>
     <dimen name="list_top_padding">8dp</dimen>
-    <dimen name="list_bottom_padding">48dp</dimen>
+    <dimen name="list_bottom_padding">64dp</dimen>
     <dimen name="divider_height">2dp</dimen>
 
     <dimen name="nav_drawer_width">280dp</dimen>

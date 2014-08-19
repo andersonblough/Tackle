@@ -2,9 +2,9 @@
 
 <set>
     <objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
-        android:interpolator="@android:anim/linear_interpolator"
+        android:interpolator="@android:anim/accelerate_decelerate_interpolator"
         android:propertyName="yFraction"
         android:valueFrom="1.0"
         android:valueTo="0.0"
-        android:duration="@integer/anim_fast"/>
+        android:duration="@integer/anim_fast" />
 </set>

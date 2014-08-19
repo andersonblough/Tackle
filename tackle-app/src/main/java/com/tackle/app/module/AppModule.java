@@ -8,6 +8,7 @@ import com.tackle.app.adapter.EventListAdapter;
 import com.tackle.app.event.bus.MainThreadBus;
 import com.tackle.app.fragments.AddFragment;
 import com.tackle.app.fragments.DateFragment;
+import com.tackle.app.fragments.DetailsFragment;
 import com.tackle.app.fragments.MainListFragment;
 import com.tackle.app.fragments.NavigationDrawerFragment;
 
@@ -21,6 +22,7 @@ import dagger.Provides;
  */
 @Module(includes = {DataModule.class},
         injects = {
+                DetailsFragment.class,
                 EventListAdapter.class,
                 DateFragment.class,
                 MainActivity.class,

@@ -30,13 +30,16 @@
     <color name="shadow5">#40666666</color>
 
 
+    <color name="text_hint">#80505050</color>
     <color name="text_grey">#363636</color>
     <color name="text_med_grey">#505050</color>
 
-    <color name="app_background">#E2E2E2</color>
+    <color name="app_background">#E0E0E0</color>
     <color name="app_med_grey">#595959</color>
+    <color name="app_grey">#787878</color>
     <color name="app_light_grey">#BDBDBD</color>
-    <color name="app_x_light_grey">#E0E0E0</color>
+    <color name="app_xx_light_grey">#F0F0F0</color>
+    <color name="app_x_light_grey">#D0D0D0</color>
 
     <color name="black90">#E6000000</color>
     <color name="black70">#B3000000</color>

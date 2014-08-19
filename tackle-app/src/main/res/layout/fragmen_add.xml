@@ -2,31 +2,189 @@
 
 <com.tackle.app.view.CustomRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white90">
+    android:layout_height="match_parent">
 
-    <com.tackle.app.view.CustomEditText
-        android:id="@+id/event_label"
+    <!--<com.tackle.app.view.CustomEditText-->
+    <!--android:id="@+id/event_label"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:paddingLeft="@dimen/edit_text_padding"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_toLeftOf="@+id/more"-->
+    <!--android:background="@color/clear"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:inputType="textCapSentences"-->
+    <!--android:singleLine="true"-->
+    <!--android:textSize="20sp"-->
+    <!--android:imeActionId="@integer/action_add"-->
+    <!--android:imeActionLabel="Add"-->
+    <!--android:hint="tackle a new todo" />-->
+
+
+    <View
+        android:id="@+id/cover_view"
         android:layout_width="match_parent"
-        android:paddingLeft="@dimen/edit_text_padding"
         android:layout_height="match_parent"
-        android:layout_toLeftOf="@+id/more"
-        android:background="@color/clear"
-        android:gravity="center_vertical"
-        android:inputType="textCapSentences"
-        android:singleLine="true"
-        android:textSize="20sp"
-        android:imeActionId="@integer/action_add"
-        android:imeActionLabel="Add"
-        android:hint="tackle a new todo" />
+        android:alpha="0"
+        android:background="@color/app_background"
+        android:clickable="true"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/add_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_item_height"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/add_item_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:src="@drawable/list_item_bg_normal" />
+
+        <ImageView
+            android:id="@+id/type_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:padding="8dp" />
+
+        <com.tackle.app.view.CustomEditText
+            android:id="@+id/add_item_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/type_icon"
+            android:gravity="center_vertical"
+            android:inputType="textCapSentences"
+            android:background="@color/clear"
+            android:singleLine="true"
+            android:imeActionId="@integer/action_add"
+            android:imeActionLabel="Add"
+            android:textColor="@color/text_med_grey"
+            android:textSize="18sp"
+            android:textColorHint="@color/text_hint"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:visibility="invisible"
+            android:alpha="0"
+            android:clickable="true"
+            android:src="@drawable/more" />
+
+        <ImageView
+            android:id="@+id/ripple_view"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/type_button_normal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/list_mask" />
+
+    </RelativeLayout>
 
     <ImageView
-        android:id="@+id/more"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_item_height"
+        android:layout_alignParentBottom="true"
+        android:alpha="0.25"
+        android:rotation="180"
+        android:src="@drawable/actionbar_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:visibility="invisible"
-        android:clickable="true"
-        android:src="@drawable/more" />
+        android:layout_above="@+id/add_button"
+        android:layout_centerHorizontal="true"
+        android:clipChildren="false"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/add_todo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/type_sel"
+            android:clickable="true"
+            android:padding="@dimen/type_circle_padding"
+            android:src="@drawable/ic_todo"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/add_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/type_sel"
+            android:clickable="true"
+            android:padding="@dimen/type_circle_padding"
+            android:src="@drawable/ic_list"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/add_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/type_sel"
+            android:clickable="true"
+            android:padding="@dimen/type_circle_padding"
+            android:src="@drawable/ic_note"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/add_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/type_sel"
+            android:clickable="true"
+            android:padding="@dimen/type_circle_padding"
+            android:src="@drawable/ic_event"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tackle"
+        android:layout_centerInParent="true"
+
+        android:background="@drawable/add_button_sel">
+
+        <ImageView
+            android:id="@+id/plus_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/plus_cancel_sel" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tackle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6dp"
+        android:fontFamily="sans-serif-light"
+        android:text="tackle something"
+        android:textColor="@color/black70"
+        android:textSize="12sp" />
 
 </com.tackle.app.view.CustomRelativeLayout>

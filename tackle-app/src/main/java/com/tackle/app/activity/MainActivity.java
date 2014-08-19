@@ -4,6 +4,7 @@ package com.tackle.app.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageSwitcher;
@@ -17,10 +18,12 @@ import com.tackle.app.R;
 import com.tackle.app.event.events.AddItemEvent;
 import com.tackle.app.event.events.DateBarEvent;
 import com.tackle.app.event.events.DayClickedEvent;
+import com.tackle.app.event.events.DetailsEvent;
 import com.tackle.app.event.events.SetDayEvent;
 import com.tackle.app.event.events.SlideFinishedEvent;
 import com.tackle.app.fragments.AddFragment;
 import com.tackle.app.fragments.DateFragment;
+import com.tackle.app.fragments.DetailsFragment;
 import com.tackle.app.fragments.MainListFragment;
 import com.tackle.app.fragments.TackleBaseFragment;
 import com.tackle.app.util.DateNavUtil;
@@ -38,6 +41,9 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
 
     @InjectView(R.id.month_view)
     public ImageSwitcher monthView;
+
+    @InjectView(R.id.detailView)
+    ViewGroup detailView;
 
     @InjectView(R.id.month_year)
     TextView monthAndYear;
@@ -109,7 +115,6 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
     public void saveTackleEvent(TackleEvent tackleEvent) {
         tackleEvent.setStartDate(currentDate.getMillis());
         tackleEvent.saveAsync();
-        addDateBar(null);
     }
 
     @Subscribe
@@ -143,11 +148,6 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
 
     }
 
-//    @Subscribe
-//    public void slide(SlideEvent event) {
-//
-//    }
-
     public void newWeek(DateTime selectedDate, boolean slidingLeft) {
         dateFragment = (DateFragment) getFragmentManager().findFragmentByTag(DateFragment.TAG);
         DateFragment newWeek = DateFragment.newWeek(selectedDate);
@@ -175,6 +175,16 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
     @Subscribe
     public void dayClicked(DayClickedEvent event) {
         mainListFragment.setSelectedPage(event.daySelected);
+    }
+
+    @Subscribe
+    public void editItemDetails(DetailsEvent.Edit event) {
+        DetailsFragment detailsFragment = new DetailsFragment();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.detailView, detailsFragment, DetailsFragment.TAG)
+                .addToBackStack(DetailsFragment.TAG)
+                .commit();
     }
 
     @Override
@@ -246,7 +256,13 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
         });
         monthView.setImageResource(MonthUtil.getResourceID(currentDate.getMonthOfYear()));
         monthAndYear.setText(currentDate.monthOfYear().getAsText() + " " + currentDate.year().getAsText());
-
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            enableNavDrawer(true);
+        }
+    }
 }

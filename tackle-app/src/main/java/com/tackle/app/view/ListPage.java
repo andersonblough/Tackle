@@ -41,8 +41,9 @@ public class ListPage extends RelativeLayout {
         listView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
         listView.setPadding(paddingSide, paddingTop, paddingSide, paddingBottom);
         listView.setVerticalScrollBarEnabled(false);
+        listView.setSelector(new ColorDrawable(getResources().getColor(R.color.clear)));
         listView.setClipToPadding(false);
-        listView.setDivider(new ColorDrawable(getResources().getColor(R.color.clear)));
+        listView.setDivider(context.getResources().getDrawable(R.drawable.divider_clear));
         listView.setAdapter(new EventListAdapter(context));
         listView.setEmptyView(quoteView);
         listView.setOverScrollMode(OVER_SCROLL_IF_CONTENT_SCROLLS);

@@ -12,10 +12,36 @@
         android:layout_height="match_parent"
         android:background="@color/app_background">
 
+        <FrameLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/month_view" />
+
+        <fragment
+            android:id="@+id/add_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/month_view"
+            android:name="com.tackle.app.fragments.AddFragment"
+            tools:layout="@layout/fragmen_add" />
+
         <ImageSwitcher
             android:id="@+id/month_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:id="@+id/detailView"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/date_bar"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/shadow_h"
+            android:layout_below="@+id/month_view"
+            android:src="@drawable/shadow" />
 
         <TextView
             android:id="@+id/month_year"
@@ -35,30 +61,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/date_bar_h"
             android:layout_alignBottom="@+id/month_view" />
-
-        <FrameLayout
-            android:id="@+id/main_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/month_view"></FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/overlay_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/month_view"></FrameLayout>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/month_view" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/shadow_h"
-            android:layout_below="@+id/month_view"
-            android:src="@drawable/shadow" />
 
     </RelativeLayout>
 

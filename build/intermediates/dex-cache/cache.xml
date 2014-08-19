@@ -16,7 +16,7 @@
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/classes-6777929220b48c0e860e2fea50829e9d0e3f72ec.jar"
         jar="/Users/andersonblough/Tackle/tackle-app/build/intermediates/exploded-aar/Tackle/tackle-data/unspecified/classes.jar"
-        jumboMode="false" revision="19.1.0" sha1="e597c022c0003e3d91c70bc4f5863e5fdf87dbf3" />
+        jumboMode="false" revision="19.1.0" sha1="1cacb8aa05f83297ea237cb10adb65fa59efca6e" />
     <item
         dex="/Users/andersonblough/Tackle/tackle-app/build/intermediates/pre-dexed/debug/javawriter-2.3.0-f99ff50ef2be49c0879f9f24a5f2da9dd8d241b7.jar"
         jar="/Users/andersonblough/.gradle/caches/modules-2/files-2.1/com.squareup/javawriter/2.3.0/4b290e394ea3109be5c0b7f08ff75de089125122/javawriter-2.3.0.jar"

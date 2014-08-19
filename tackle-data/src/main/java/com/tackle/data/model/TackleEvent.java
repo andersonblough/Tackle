@@ -14,6 +14,9 @@ public class TackleEvent extends BaseModel implements EventColumns {
     public static final int TYPE_NOTE = 3;
     public static final int TYPE_EVENT = 4;
 
+    public static final String STATUS_TACKLED = "tackled";
+    public static final String STATUS_ACTIVE = "active";
+
     public static final String TABLE_NAME = "tackle_events";
 
     @Column(COLUMN_TITLE)
@@ -25,7 +28,7 @@ public class TackleEvent extends BaseModel implements EventColumns {
     @Column(COLUMN_NOTES)
     private String notes;
     @Column(COLUMN_STATUS)
-    private String status;
+    private String status = STATUS_ACTIVE;
     @Column(COLUMN_START_DATE)
     private long startDate;
     @Column(COLUMN_END_DATE)
@@ -76,6 +79,14 @@ public class TackleEvent extends BaseModel implements EventColumns {
 
     public void setCategoryID(long categoryID) {
         this.categoryID = categoryID;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public boolean isTackled() {
+        return status.equals(STATUS_TACKLED);
     }
 }
 

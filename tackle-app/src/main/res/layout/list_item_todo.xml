@@ -4,20 +4,31 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
     android:background="@drawable/list_item_bg_sel"
-    android:padding="@dimen/list_item_padding">
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:paddingRight="12dp">
 
     <ImageView
         android:id="@+id/type_icon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="6dp"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_todo" />
+
+    <ImageView
+        android:id="@+id/tackled_check"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="6dp"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:src="@drawable/ic_todo_tackled" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/list_item_padding"
         android:layout_marginRight="@dimen/list_item_padding"
         android:layout_toRightOf="@+id/type_icon"
         android:layout_toLeftOf="@+id/date"
