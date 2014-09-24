@@ -1,5 +1,7 @@
 package com.tackle.data.model;
 
+import android.graphics.Color;
+
 import se.emilsjolander.sprinkles.Model;
 import se.emilsjolander.sprinkles.annotations.AutoIncrement;
 import se.emilsjolander.sprinkles.annotations.Column;
@@ -46,5 +48,9 @@ public class Category extends Model implements CategoryColumns {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public int getParsedColor() {
+        return Color.parseColor(color);
     }
 }

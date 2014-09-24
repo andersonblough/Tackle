@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -203,7 +204,7 @@ public class AddFragment extends TackleBaseFragment {
         final float oldY = view.getY();
 
 
-        view.animate().setDuration(200).x(xPosition).y(yPosition).setListener(new SimpleAnimationListener() {
+        view.animate().setDuration(200).x(xPosition).y(yPosition).setInterpolator(new DecelerateInterpolator()).setListener(new SimpleAnimationListener() {
 
             @Override
             public void onAnimationEnd(Animator animator) {
@@ -344,7 +345,7 @@ public class AddFragment extends TackleBaseFragment {
                 view.setScaleX(0);
                 view.setScaleY(0);
                 view.setVisibility(View.VISIBLE);
-                view.animate().setDuration(200).setStartDelay(index * 80).scaleX(1.0f).scaleY(1.0f).setInterpolator(new DecelerateInterpolator()).setListener(new SimpleAnimationListener() {
+                view.animate().setDuration(200).setStartDelay(index * 100).scaleX(1.0f).scaleY(1.0f).setInterpolator(new OvershootInterpolator(2.0f)).setListener(new SimpleAnimationListener() {
                     @Override
                     public void onAnimationEnd(Animator animator) {
                         super.onAnimationEnd(animator);
@@ -362,7 +363,7 @@ public class AddFragment extends TackleBaseFragment {
         ButterKnife.apply(typeButtons, new ButterKnife.Action<ImageView>() {
             @Override
             public void apply(final ImageView view, int index) {
-                view.animate().setDuration(200).setStartDelay((3 - index) * 80).scaleX(0).scaleY(0).setInterpolator(new AccelerateDecelerateInterpolator()).setListener(new SimpleAnimationListener() {
+                view.animate().setDuration(200).setStartDelay((3 - index) * 100).scaleX(0).scaleY(0).setInterpolator(new AccelerateDecelerateInterpolator()).setListener(new SimpleAnimationListener() {
 
                     @Override
                     public void onAnimationEnd(Animator animator) {

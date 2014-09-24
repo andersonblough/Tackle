@@ -43,6 +43,7 @@ public class TackleBaseFragment extends Fragment {
     public void onResume() {
         super.onResume();
         setupUI();
+        setupActionBar();
         getActivity().invalidateOptionsMenu();
     }
 

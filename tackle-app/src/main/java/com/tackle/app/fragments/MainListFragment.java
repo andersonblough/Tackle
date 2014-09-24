@@ -243,16 +243,16 @@ public class MainListFragment extends TackleBaseFragment {
         listPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         listPager.setPageMarginDrawable(new ColorDrawable(getResources().getColor(R.color.clear)));
         listPager.setPageMargin(200);
-        listPager.setPageTransformer(true, new ViewPager.PageTransformer() {
-            @Override
-            public void transformPage(View page, float position) {
-                ListPage listPage = (ListPage) page;
-                for (int i = 0; i < listPage.getListView().getChildCount(); i++) {
-                    View view = listPage.getListView().getChildAt(i);
-                    view.setTranslationX(i * offset * position);
-                }
-            }
-        });
+//        listPager.setPageTransformer(true, new ViewPager.PageTransformer() {
+//            @Override
+//            public void transformPage(View page, float position) {
+//                ListPage listPage = (ListPage) page;
+//                for (int i = 0; i < listPage.getListView().getChildCount(); i++) {
+//                    View view = listPage.getListView().getChildAt(i);
+//                    view.setTranslationX(i * offset * position);
+//                }
+//            }
+//        });
     }
 
     public void setSelectedPage(int position) {

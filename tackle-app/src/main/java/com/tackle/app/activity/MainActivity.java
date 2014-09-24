@@ -4,7 +4,6 @@ package com.tackle.app.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageSwitcher;
@@ -20,6 +19,7 @@ import com.tackle.app.event.events.DateBarEvent;
 import com.tackle.app.event.events.DayClickedEvent;
 import com.tackle.app.event.events.DetailsEvent;
 import com.tackle.app.event.events.SetDayEvent;
+import com.tackle.app.event.events.ShowShadeEvent;
 import com.tackle.app.event.events.SlideFinishedEvent;
 import com.tackle.app.fragments.AddFragment;
 import com.tackle.app.fragments.DateFragment;
@@ -42,11 +42,11 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
     @InjectView(R.id.month_view)
     public ImageSwitcher monthView;
 
-    @InjectView(R.id.detailView)
-    ViewGroup detailView;
-
     @InjectView(R.id.month_year)
     TextView monthAndYear;
+
+    @InjectView(R.id.shade_view)
+    View shadeView;
 
     @Inject
     Bus eventBus;
@@ -182,9 +182,20 @@ public class MainActivity extends DrawerActivity implements TackleBaseFragment.D
         DetailsFragment detailsFragment = new DetailsFragment();
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.detailView, detailsFragment, DetailsFragment.TAG)
+                .replace(R.id.overlay_fragment, detailsFragment, DetailsFragment.TAG)
                 .addToBackStack(DetailsFragment.TAG)
                 .commit();
+
+
+    }
+
+    @Subscribe
+    public void showShadeView(ShowShadeEvent event) {
+        float alpha = 0.0f;
+        if (event.isShadeVisible()) {
+            alpha = 0.6f;
+        }
+        shadeView.animate().setDuration(getResources().getInteger(R.integer.anim_fast)).alpha(alpha).start();
     }
 
     @Override

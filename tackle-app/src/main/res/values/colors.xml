@@ -29,6 +29,12 @@
     <color name="shadow4">#33666666</color>
     <color name="shadow5">#40666666</color>
 
+    <color name="shadow00">#0D000000</color>
+    <color name="shadow01">#0D000000</color>
+    <color name="shadow02">#1A000000</color>
+    <color name="shadow03">#26000000</color>
+    <color name="shadow04">#33000000</color>
+    <color name="shadow05">#40000000</color>
 
     <color name="text_hint">#80505050</color>
     <color name="text_grey">#363636</color>
@@ -41,11 +47,13 @@
     <color name="app_xx_light_grey">#F0F0F0</color>
     <color name="app_x_light_grey">#D0D0D0</color>
 
+    <color name="black">#000</color>
     <color name="black90">#E6000000</color>
     <color name="black70">#B3000000</color>
     <color name="black50">#80000000</color>
     <color name="black30">#4D000000</color>
     <color name="black10">#1A000000</color>
+
 
     <color name="grey70">#B3878787</color>
     <color name="grey50">#80595959</color>

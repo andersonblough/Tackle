@@ -20,5 +20,6 @@
     <dimen name="list_item_height">68dp</dimen>
     <dimen name="list_item_padding">8dp</dimen>
     <dimen name="type_circle_padding">10dp</dimen>
+    <dimen name="plus_button_size">8dp</dimen>
 
 </resources>

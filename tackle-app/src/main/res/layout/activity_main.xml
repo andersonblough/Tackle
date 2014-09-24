@@ -62,6 +62,18 @@
             android:layout_height="@dimen/date_bar_h"
             android:layout_alignBottom="@+id/month_view" />
 
+        <View
+            android:id="@+id/shade_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.0"
+            android:background="@color/black" />
+
+        <FrameLayout
+            android:id="@+id/overlay_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
     </RelativeLayout>
 
     <fragment

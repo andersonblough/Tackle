@@ -4,6 +4,7 @@ import com.squareup.otto.Bus;
 import com.tackle.app.TackleApp;
 import com.tackle.app.activity.DrawerActivity;
 import com.tackle.app.activity.MainActivity;
+import com.tackle.app.adapter.CategoryCursorAdapter;
 import com.tackle.app.adapter.EventListAdapter;
 import com.tackle.app.event.bus.MainThreadBus;
 import com.tackle.app.fragments.AddFragment;
@@ -22,6 +23,7 @@ import dagger.Provides;
  */
 @Module(includes = {DataModule.class},
         injects = {
+                CategoryCursorAdapter.class,
                 DetailsFragment.class,
                 EventListAdapter.class,
                 DateFragment.class,

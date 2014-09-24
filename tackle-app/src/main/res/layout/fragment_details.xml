@@ -2,13 +2,47 @@
 
 <com.tackle.app.view.CustomRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/card_view"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/type_icon"
+                android:layout_width="32dp"
+                android:layout_height="match_parent"
+                android:tint="@color/grey50"
+                android:src="@drawable/ic_todo" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:textSize="@dimen/text_size_med"
+                android:textColor="@color/text_med_grey"
+                android:text="Sand Dresser" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@android:drawable/ic_menu_edit" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </com.tackle.app.view.CustomRelativeLayout>
 

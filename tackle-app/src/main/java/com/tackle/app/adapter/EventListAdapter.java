@@ -107,7 +107,7 @@ public class EventListAdapter extends BaseAdapter {
             holder.typeIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ;
+
                     TackleEvent event = getItem(position);
                     toggleVisibility(holder.tackleCheck);
                     if (event.isTackled()) {
